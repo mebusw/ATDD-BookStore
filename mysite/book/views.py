@@ -4,7 +4,8 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
-from book.models import Book, Comment
+from django.db.models import F, Q
+from book.models import Book, Comment, Author
 
 '''
 def index(request):
@@ -59,6 +60,7 @@ def login_view(request):
     if user is not None:
         if user.is_active:
             login(request, user)
+            request.session['cart'] = {}
             # Redirect to a success page.
             return HttpResponseRedirect(reverse('book:index'))
         else:
@@ -71,23 +73,29 @@ def login_view(request):
         
 def logout_view(request):
     logout(request)        
-    del request.session['cart']
     return HttpResponseRedirect(reverse('book:index'))
 
 def search_view(request):
-    books = Book.objects.filter(title__contains=request.GET['q']) #.filter(authors__contains=request.GET['q'])  
+    b1 = Book.objects.filter(title__contains=request.GET['q'])
+    b2 = Book.objects.filter(authors__name__icontains=request.GET['q'])
+    books = set(b1) | set(b2)
+    ### this may cause duplicate records for which has many authors
+    ##books = Book.objects.filter(Q(title__contains=request.GET['q']) | Q(authors__name__icontains=request.GET['q']))
     return render(request, 'book/search.html', {'books': books})
 
 def pick_view(request):
     book_id = request.POST['book_id']
-    request.session['cart'][book_id] = 1
+    if request.session['cart'].has_key(book_id):
+        request.session['cart'][book_id] += 1
+    else:    
+        request.session['cart'][book_id] = 1
     request.session.modified = True    
     return HttpResponseRedirect(reverse('book:index', args=()))
 
 def cart_view(request):
     books = []
     for i in request.session['cart'].items():
-        books.append((Book.objects.get(pk=i[0]), i[0]))
+        books.append((Book.objects.get(pk=i[0]), i[1]))
     print books    
     return render(request, 'book/cart.html', {'books': books})
 
