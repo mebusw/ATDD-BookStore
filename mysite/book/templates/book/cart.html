@@ -1,5 +1,5 @@
 <h2>Shopping Cart</h2>
-<a href="{% url 'book:search' %}">Continoue shopping</a>
+<a href="{% url 'book:index' %}">Continoue shopping</a>
 {% if boughtItems %}
     <ul>
     {% for item in boughtItems %}
@@ -8,13 +8,18 @@
             <form action="{% url 'book:adjust' %}" method="POST">
                 {% csrf_token %}
                 <input type="hidden" id="book_id" name="book_id" value="{{ item.book.id }}" />
-                <input id="qty" name="qty" value="{{ item.qty }}" />
+                <label for="qty">Qty:</lable><input id="qty" name="qty" value="{{ item.qty }}" />
                 <input type="submit" value="Adjust" />
             </form>
         </li>
     {% endfor %}
     </ul>
+    <form action="{% url 'book:checkout' %}" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Checkout" />        
+    </form>
+    
 {% else %}
-    <p>No book are in cart.</p>
+    <p>No book in cart.</p>
 {% endif %}
 

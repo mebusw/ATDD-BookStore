@@ -18,6 +18,8 @@ urlpatterns = patterns('',
     url(r'^pick/$', views.pick_view, name='pick'),    
     url(r'^adjust/$', views.adjust_view, name='adjust'),    
     url(r'^cart/$', views.cart_view, name='cart'),    
+    url(r'^checkout/$', views.checkout_view, name='checkout'),     
+    url(r'^confirm/$', views.confirm_view, name='confirm'),     
 )
 
 

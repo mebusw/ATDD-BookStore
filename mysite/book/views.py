@@ -95,8 +95,7 @@ def pick_view(request):
     else:  
         qty = 1  
     request.session['cart'][book_id] = qty
-    request.session.modified = True    
-    ### stay in cart
+    request.session.modified = True
     return HttpResponseRedirect(reverse('book:index', args=()))
 
 def adjust_view(request):
@@ -105,10 +104,9 @@ def adjust_view(request):
     if request.session['cart'].has_key(book_id):
         request.session['cart'][book_id] = qty
     if qty <= 0:
-        del request.session['cart'][book_id]
-    print request.session['cart']        
+        del request.session['cart'][book_id]       
     request.session.modified = True    
-    return HttpResponseRedirect(reverse('book:index', args=()))
+    return HttpResponseRedirect(reverse('book:cart', args=()))
 
 
 def cart_view(request):
@@ -116,4 +114,16 @@ def cart_view(request):
     for (book_id, qty) in request.session['cart'].iteritems():
         boughtItems.append({'book': Book.objects.get(pk=book_id), 'qty': qty})   
     return render(request, 'book/cart.html', {'boughtItems': boughtItems})
+
+def checkout_view(request):
+    totalPrice = 0
+    for (book_id, qty) in request.session['cart'].iteritems():
+        totalPrice += Book.objects.get(pk=book_id).price * qty
+    request.session['totalPrice'] = totalPrice
+    request.session.modified = True 
+    return render(request, 'book/bills.html', {'totalPrice': totalPrice})
+
+def confirm_view(request):
+    request.session['cart'] = {}
+    return HttpResponseRedirect(reverse('book:index', args=()))
 
