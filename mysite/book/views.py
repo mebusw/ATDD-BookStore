@@ -76,8 +76,12 @@ def logout_view(request):
     return HttpResponseRedirect(reverse('book:index'))
 
 def search_view(request):
-    b1 = Book.objects.filter(title__contains=request.GET['q'])
-    b2 = Book.objects.filter(authors__name__icontains=request.GET['q'])
+    if request.GET.has_key('q'):
+        kw = request.GET['q']
+    else:
+        kw = ''
+    b1 = Book.objects.filter(title__contains=kw)
+    b2 = Book.objects.filter(authors__name__icontains=kw)
     books = set(b1) | set(b2)
     ### this may cause duplicate records for which has many authors
     ##books = Book.objects.filter(Q(title__contains=request.GET['q']) | Q(authors__name__icontains=request.GET['q']))
@@ -85,17 +89,31 @@ def search_view(request):
 
 def pick_view(request):
     book_id = request.POST['book_id']
+    print type(book_id)
     if request.session['cart'].has_key(book_id):
-        request.session['cart'][book_id] += 1
-    else:    
-        request.session['cart'][book_id] = 1
+        qty = int(request.session['cart'][book_id]) + 1
+    else:  
+        qty = 1  
+    request.session['cart'][book_id] = qty
+    request.session.modified = True    
+    ### stay in cart
+    return HttpResponseRedirect(reverse('book:index', args=()))
+
+def adjust_view(request):
+    book_id = request.POST['book_id']
+    qty = int(request.POST['qty'])
+    if request.session['cart'].has_key(book_id):
+        request.session['cart'][book_id] = qty
+    if qty <= 0:
+        del request.session['cart'][book_id]
+    print request.session['cart']        
     request.session.modified = True    
     return HttpResponseRedirect(reverse('book:index', args=()))
 
+
 def cart_view(request):
-    books = []
-    for i in request.session['cart'].items():
-        books.append((Book.objects.get(pk=i[0]), i[1]))
-    print books    
-    return render(request, 'book/cart.html', {'books': books})
+    boughtItems = []
+    for (book_id, qty) in request.session['cart'].iteritems():
+        boughtItems.append({'book': Book.objects.get(pk=book_id), 'qty': qty})   
+    return render(request, 'book/cart.html', {'boughtItems': boughtItems})
 

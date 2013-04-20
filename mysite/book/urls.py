@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     url(r'^logout/$', views.logout_view, name='logout'),
     url(r'^search/$', views.search_view, name='search'),
     url(r'^pick/$', views.pick_view, name='pick'),    
+    url(r'^adjust/$', views.adjust_view, name='adjust'),    
     url(r'^cart/$', views.cart_view, name='cart'),    
 )
 
