@@ -121,7 +121,7 @@ def checkout_view(request):
         totalPrice += Book.objects.get(pk=book_id).price * qty
     request.session['totalPrice'] = totalPrice
     request.session.modified = True 
-    return render(request, 'book/bills.html', {'totalPrice': totalPrice})
+    return render(request, 'book/confirm.html', {'totalPrice': totalPrice})
 
 def confirm_view(request):
     request.session['cart'] = {}

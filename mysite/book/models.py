@@ -40,3 +40,10 @@ class Author(models.Model):
     def __unicode__(self):
         return self.name
         
+        
+class Bill(models.Model):   
+    user = models.ForeignKey(User)
+    checkout_date = models.DateTimeField('date checkouted')
+    remark = models.CharField(max_length=200)
+    totalPrice = models.IntegerField(default=10)
+    books = models.ManyToManyField('Book')        
