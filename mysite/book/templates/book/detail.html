@@ -1,0 +1,33 @@
+<h1>{{ book.title }}</h1>
+
+<form action="{% url 'book:pick' %}" method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="book_id" value="{{book.id}}" />
+    <input type="submit" value="Add to Cart" />
+</form>
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<p>Publish Date: {{ book.pub_date }}</p>
+<p>ISBN: {{ book.isbn }}</p>
+<p>{% if book.in_stock %} In-Stock {% else %} Out-of-Stock {% endif%} </p>
+<p>Description: {{ book.description }}</p>
+<p>{{ book.numberOfPages }} page{{ book.numberOfPages|pluralize }}</p>
+<p>Price: ${{ book.price }}</p>
+
+
+<article>Authors:<article>
+<ul>
+{% for author in book.authors.all %}
+    <li>{{ author.name }} ({{ author.email }})</li>
+{% endfor %}
+</ul>
+
+<article>Comments:<article>
+<ul>
+{% for comment in book.comment_set.all %}
+    <li>{{ comment.text }} -- by {{ comment.author.username }} at {{ comment.pub_date }}</li>
+{% endfor %}
+</ul>
+
+{% load staticfiles %}
+<img src="{% static "book/book.jpg" %}" alt="My image"/>

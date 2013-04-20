@@ -1,0 +1,16 @@
+<div>
+    <form action="{% url 'book:search' %}" method="get">
+        <input id="q" name="q" placeholder="9876 books" />
+        <input type="submit" value="Search" />
+    </form>
+</div>
+{% if books %}
+    <ul>
+    {% for book in books %}
+        <li><a href="{% url 'book:detail' book.id %}">{{ book.title }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No book are in stock.</p>
+{% endif %}
+

@@ -1,0 +1,12 @@
+<h2>Shopping Cart</h2>
+{% if books %}
+    <ul>
+    {% for item in books %}
+        <li><a href="{% url 'book:detail' item.0.id %}">{{ item.0.title }}</a>
+         [{{ item.1 }}]</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No book are in cart.</p>
+{% endif %}
+
