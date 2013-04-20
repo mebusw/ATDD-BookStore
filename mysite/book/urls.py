@@ -20,6 +20,7 @@ urlpatterns = patterns('',
     url(r'^cart/$', views.cart_view, name='cart'),    
     url(r'^checkout/$', views.checkout_view, name='checkout'),     
     url(r'^confirm/$', views.confirm_view, name='confirm'),     
+    url(r'^bills/$', views.bills_view, name='bills'), 
 )
 
 

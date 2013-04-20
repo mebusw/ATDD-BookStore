@@ -22,6 +22,7 @@
 </div>
         {% if notify_message %}<p><strong>{{ notify_message }}</strong></p>{% endif %}
         <p><a href="{% url 'book:cart' %}">Cart</a></p>
+        <p><a href="{% url 'book:bills' %}">Bills</a></p>
         
 <div>
     <form action="{% url 'book:search' %}" method="get">

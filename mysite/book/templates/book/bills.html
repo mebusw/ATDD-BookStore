@@ -1,0 +1,18 @@
+<h2>Bills History</h2>
+
+<a href="{% url 'book:index' %}">Continoue shopping</a>
+
+{% if bills %}
+    <ul>
+    {% for bill in bills %}
+        <li>
+            <p>Total Price: ${{ bill.totalPrice }}</p>
+            <p>Checkout Date: ${{ bill.checkout_date }}</p>
+
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No bill in history.</p>
+{% endif %}
+

@@ -1,4 +1,5 @@
 <h1>{{ book.title }}</h1>
+<a href="{% url 'book:index' %}">Continoue shopping</a>
 
 <form action="{% url 'book:pick' %}" method="POST">
     {% csrf_token %}

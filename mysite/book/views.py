@@ -5,7 +5,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import F, Q
-from book.models import Book, Comment, Author
+from book.models import Book, Comment, Author, Bill
+import datetime
 
 '''
 def index(request):
@@ -111,19 +112,29 @@ def adjust_view(request):
 
 def cart_view(request):
     boughtItems = []
-    for (book_id, qty) in request.session['cart'].iteritems():
-        boughtItems.append({'book': Book.objects.get(pk=book_id), 'qty': qty})   
-    return render(request, 'book/cart.html', {'boughtItems': boughtItems})
-
-def checkout_view(request):
     totalPrice = 0
     for (book_id, qty) in request.session['cart'].iteritems():
+        boughtItems.append({'book': Book.objects.get(pk=book_id), 'qty': qty})   
         totalPrice += Book.objects.get(pk=book_id).price * qty
     request.session['totalPrice'] = totalPrice
     request.session.modified = True 
+    return render(request, 'book/cart.html', {'boughtItems': boughtItems})
+
+def checkout_view(request):
+    totalPrice = request.session['totalPrice']
     return render(request, 'book/confirm.html', {'totalPrice': totalPrice})
 
 def confirm_view(request):
+    bill = Bill(user=request.user, checkout_date=datetime.date.today(), totalPrice=request.session['totalPrice'])
+    bill.save()
+    for (book_id, qty) in request.session['cart'].iteritems():
+        book = Book.objects.get(pk=book_id)
+        bill.books.add(book)
+    bill.save()
     request.session['cart'] = {}
     return HttpResponseRedirect(reverse('book:index', args=()))
+
+def bills_view(request):
+    bills = Bill.objects.all()
+    return render(request, 'book/bills.html', {'bills': bills})
 
