@@ -3,7 +3,7 @@
     <h1>Welcome to Book Store.</h1>
     {% if user.is_authenticated %}
         <p>Welcome, {{ user.username }}. Thanks for logging in.
-        <a href="{% url 'book:logout' %}">Logout</a>
+        <a id="btnLogout" href="{% url 'book:logout' %}">Logout</a>
         </p>
     {% else %}
         <p>Welcome, Please log in.</p>
@@ -12,9 +12,9 @@
         <form action="{% url 'book:login' %}" method="post">
         {% csrf_token %}
             <label for="username">username</label>
-            <input type="text" name="username" placeholder="username" value="uperform" /><br/>
+            <input type="text" id="username" name="username" placeholder="username" value="uperform" /><br/>
             <label for="password">password</label>
-            <input type="password" name="password" placeholder="password" value="uperform" /><br/>
+            <input type="password" id="password" name="password" placeholder="password" value="uperform" /><br/>
             <input type="submit" value="Login" id="btnLogin"/>
         </form>
     {% endif %}

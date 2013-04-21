@@ -16,7 +16,32 @@ Built-in Syntax
 Admin Site
     Open Browser    http://127.0.0.1:8000/admin/
     Page Should Contain    admin
-    Close Browser
+    [Teardown]    Close Browser
+
+Login with wrong username
+    Open Browser    http://127.0.0.1:8000/book/
+    Page Should Contain    Welcome to Book Store.
+    Login To Public    abcdefg    uperform
+    Page Should Contain    Wrong username or password!
+    Page Should Contain Element    id=btnLogin
+    [Teardown]    Close Browser
+
+Login with wrong password
+    Open Browser    http://127.0.0.1:8000/book/
+    Page Should Contain    Welcome to Book Store.
+    Login To Public    uperform    1234
+    Page Should Contain    Wrong username or password!
+    Page Should Contain Element    id=btnLogin
+    [Teardown]    Close Browser
+
+Login with correct username and password
+    Open Browser    http://127.0.0.1:8000/book/
+    Page Should Contain    Welcome to Book Store.
+    Login To Public    uperform    uperform
+    Page Should Contain    Welcome, uperform. Thanks for logging in
+    Page Should Contain Element    id=btnLogout
+    Logout From Public
+    [Teardown]    Close Browser
 
 *** Keywords ***
 For Loop
@@ -28,3 +53,11 @@ Full Name
     [Arguments]    ${firstName}    ${lastName}
     [Return]    ${firstName}, \ ${lastName}
 
+Login To Public
+    [Arguments]    ${username}    ${password}
+    Input Text    id=username    ${username}
+    Input Text    id=password    ${password}
+    Click Button    id=btnLogin
+
+Logout From Public
+    Click Element    id=btnLogout

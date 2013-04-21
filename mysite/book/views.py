@@ -125,7 +125,7 @@ def checkout_view(request):
     return render(request, 'book/confirm.html', {'totalPrice': totalPrice})
 
 def confirm_view(request):
-    bill = Bill(user=request.user, checkout_date=datetime.date.today(), totalPrice=request.session['totalPrice'])
+    bill = Bill(user=request.user, checkout_date=datetime.datetime.now(), totalPrice=request.session['totalPrice'])
     bill.save()
     for (book_id, qty) in request.session['cart'].iteritems():
         book = Book.objects.get(pk=book_id)
