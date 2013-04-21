@@ -1,0 +1,30 @@
+*** Settings ***
+Library           Selenium2Library
+
+*** Variables ***
+${username}       uperform
+${password}       uperform
+@{browsers}       chrome    firefox    safari
+
+*** Test Cases ***
+Built-in Syntax
+    Log Many    @{browsers}
+    For Loop
+    ${fullName}    Full Name    Jacky    Shen
+    Log    ${fullName}
+
+Admin Site
+    Open Browser    http://127.0.0.1:8000/admin/
+    Page Should Contain    admin
+    Close Browser
+
+*** Keywords ***
+For Loop
+    @{items}    Evaluate    range(5)
+    : FOR    ${var}    IN    @{items}
+    \    Log    Hello, ${var}
+
+Full Name
+    [Arguments]    ${firstName}    ${lastName}
+    [Return]    ${firstName}, \ ${lastName}
+
