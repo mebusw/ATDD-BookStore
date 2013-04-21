@@ -83,7 +83,8 @@ def search_view(request):
         kw = ''
     b1 = Book.objects.filter(title__contains=kw)
     b2 = Book.objects.filter(authors__name__icontains=kw)
-    books = set(b1) | set(b2)
+    b3 = Book.objects.filter(isbn__contains=kw)    
+    books = set(b1) | set(b2) | set(b3)
     ### this may cause duplicate records for which has many authors
     ##books = Book.objects.filter(Q(title__contains=request.GET['q']) | Q(authors__name__icontains=request.GET['q']))
     return render(request, 'book/search.html', {'books': books})

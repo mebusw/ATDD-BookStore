@@ -1,4 +1,5 @@
 *** Settings ***
+Test Teardown     Close Browser
 Library           Selenium2Library
 
 *** Variables ***
@@ -12,6 +13,7 @@ Built-in Syntax
     For Loop
     ${fullName}    Full Name    Jacky    Shen
     Log    ${fullName}
+    [Teardown]
 
 Admin Site
     Open Browser    http://127.0.0.1:8000/admin/
@@ -24,7 +26,6 @@ Login with wrong username
     Login To Public    abcdefg    uperform
     Page Should Contain    Wrong username or password!
     Page Should Contain Element    id=btnLogin
-    [Teardown]    Close Browser
 
 Login with wrong password
     Open Browser    http://127.0.0.1:8000/book/
@@ -32,7 +33,6 @@ Login with wrong password
     Login To Public    uperform    1234
     Page Should Contain    Wrong username or password!
     Page Should Contain Element    id=btnLogin
-    [Teardown]    Close Browser
 
 Login with correct username and password
     Open Browser    http://127.0.0.1:8000/book/
@@ -41,7 +41,30 @@ Login with correct username and password
     Page Should Contain    Welcome, uperform. Thanks for logging in
     Page Should Contain Element    id=btnLogout
     Logout From Public
-    [Teardown]    Close Browser
+
+Search for a word that is likely a title but not author
+    Open Browser    http://127.0.0.1:8000/book/
+    Search With Word    navigation
+    Search Results Should Include    Night Navigation
+    Search Results Should Include    POINT TO POINT NAVIGATION
+
+Search for a word that is likely an author but not title
+    Open Browser    http://127.0.0.1:8000/book/
+    Search With Word    Fowler
+    Search Results Should Include    Patterns of Enterprise Application Architecture
+    Search Results Should Include    Refactoring: Improving the Design of Existing Code
+
+Search for a word that is likely an author and a title
+    Open Browser    http://127.0.0.1:8000/book/
+    Search With Word    brown
+    Search Results Should Include    Inferno: A Novel (Robert Langdon)
+    Search Results Should Include    Brown Bear, Brown Bear, What Do You See? My First Reader
+
+Search for ISBN number
+    Open Browser    http://127.0.0.1:8000/book/
+    Search With Word    9780385537858
+    Search Results Should Include    Inferno: A Novel (Robert Langdon)
+    Book Detail Should Contain    Inferno: A Novel (Robert Langdon)    9780385537858
 
 *** Keywords ***
 For Loop
@@ -61,3 +84,18 @@ Login To Public
 
 Logout From Public
     Click Element    id=btnLogout
+
+Search With Word
+    [Arguments]    ${q}
+    Input Text    id=q    ${q}
+    Click Button    id=search
+
+Search Results Should Include
+    [Arguments]    ${title}
+    Page Should Contain    ${title}
+
+Book Detail Should Contain
+    [Arguments]    ${title}    ${ISBN}
+    Click Link    id=isbn_${ISBN}
+    Page Should Contain    ${title}
+    Page Should Contain    ${ISBN}
