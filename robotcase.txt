@@ -5,11 +5,12 @@ Library           Selenium2Library
 *** Variables ***
 ${username}       uperform
 ${password}       uperform
-@{browsers}       chrome    firefox    safari
+@{os}       windows    macos    linux
+${browser}       firefox
 
 *** Test Cases ***
 Built-in Syntax
-    Log Many    @{browsers}
+    Log Many    @{os}
     For Loop
     ${fullName}    Full Name    Jacky    Shen
     Log    ${fullName}
@@ -20,21 +21,21 @@ Admin Site
     Page Should Contain    admin
     [Teardown]    Close Browser
 
-Login with wrong username
-    Open Browser    http://127.0.0.1:8000/book/
+Login With Wrong Username
+    Open Browser    http://127.0.0.1:8000/book/    ${browser}
     Page Should Contain    Welcome to Book Store.
     Login To Public    abcdefg    uperform
     Page Should Contain    Wrong username or password!
     Page Should Contain Element    id=btnLogin
 
-Login with wrong password
+Login With Wrong Password
     Open Browser    http://127.0.0.1:8000/book/
     Page Should Contain    Welcome to Book Store.
     Login To Public    uperform    1234
     Page Should Contain    Wrong username or password!
     Page Should Contain Element    id=btnLogin
 
-Login with correct username and password
+Login With Correct Username And Password
     Open Browser    http://127.0.0.1:8000/book/
     Page Should Contain    Welcome to Book Store.
     Login To Public    uperform    uperform
@@ -42,25 +43,25 @@ Login with correct username and password
     Page Should Contain Element    id=btnLogout
     Logout From Public
 
-Search for a word that is likely a title but not author
+Search For A Word That Is Likely A Title But Not Author
     Open Browser    http://127.0.0.1:8000/book/
     Search With Word    navigation
     Search Results Should Include    Night Navigation
     Search Results Should Include    POINT TO POINT NAVIGATION
 
-Search for a word that is likely an author but not title
+Search For A Word That Is Likely An Author But Not Title
     Open Browser    http://127.0.0.1:8000/book/
     Search With Word    Fowler
     Search Results Should Include    Patterns of Enterprise Application Architecture
     Search Results Should Include    Refactoring: Improving the Design of Existing Code
 
-Search for a word that is likely an author and a title
+Search For A Word That Is Likely An Author And A Title
     Open Browser    http://127.0.0.1:8000/book/
     Search With Word    brown
     Search Results Should Include    Inferno: A Novel (Robert Langdon)
     Search Results Should Include    Brown Bear, Brown Bear, What Do You See? My First Reader
 
-Search for ISBN number
+Search For TSBN Number
     Open Browser    http://127.0.0.1:8000/book/
     Search With Word    9780385537858
     Search Results Should Include    Inferno: A Novel (Robert Langdon)

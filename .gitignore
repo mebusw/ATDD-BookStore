@@ -1,3 +1,8 @@
+chromedriver.log
+log.html
+output.xml
+report.html
+
 *.py[cod]
 
 # C extensions
