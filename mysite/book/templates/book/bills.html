@@ -8,7 +8,11 @@
         <li>
             <p>Total Price: ${{ bill.totalPrice }}</p>
             <p>Checkout Date: ${{ bill.checkout_date }}</p>
-
+            <ol>
+            {% for book in bill.booksHistory %}            
+                <li><a href="{% url 'book:detail' book.id %}">{{ book.title }}</a></li>
+            {% endfor %}
+            </ol>
         </li>
     {% endfor %}
     </ul>

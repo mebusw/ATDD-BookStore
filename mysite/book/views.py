@@ -136,5 +136,7 @@ def confirm_view(request):
 
 def bills_view(request):
     bills = Bill.objects.all()
+    for b in bills:
+        b.booksHistory = b.books.all()
     return render(request, 'book/bills.html', {'bills': bills})
 
