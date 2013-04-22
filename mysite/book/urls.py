@@ -4,9 +4,9 @@ from book import views
 
 urlpatterns = patterns('',
     # ex: /polls/
-    url(r'^$', views.index, name='index'),
+    url(r'^$', views.index_view, name='index'),
     # ex: /polls/5/
-    url(r'^book/(?P<book_id>\d+)/$', views.detail, name='detail'),
+    url(r'^book/(?P<book_id>\d+)/$', views.detail_view, name='detail'),
     # ex: /polls/5/results/
 #    url(r'^(?P<book_id>\d+)/results/$', views.results, name='results'),
     # ex: /polls/5/vote/
@@ -20,7 +20,7 @@ urlpatterns = patterns('',
     url(r'^cart/$', views.cart_view, name='cart'),    
     url(r'^checkout/$', views.checkout_view, name='checkout'),     
     url(r'^confirm/$', views.confirm_view, name='confirm'),     
-    url(r'^bills/$', views.bills_view, name='bills'), 
+    url(r'^bills/$', views.bills_view, name='bills'),
 )
 
 

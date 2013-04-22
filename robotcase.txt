@@ -61,13 +61,13 @@ Search For ISBN Number
     [Documentation]    Precondition: refered test data are already in database.
     Search With Word    9780385537858
     Search Results Should Include    Inferno: A Novel (Robert Langdon)    9780385537858
-    Book Detail Should Contain    Inferno: A Novel (Robert Langdon)    9780385537858    Out-of-Stock
+    Verify Book Detail    Inferno: A Novel (Robert Langdon)    9780385537858    Out-of-Stock
 
 Pick An Out-of-stock Book Into The Cart
     [Documentation]    Precondition: refered test data are already in database.
     Search With Word    9780385537858
     ${link}    Search Results Should Include    Inferno: A Novel (Robert Langdon)    9780385537858
-    Book Detail Should Contain    Inferno: A Novel (Robert Langdon)    9780385537858    Out-of-Stock
+    Verify Book Detail    Inferno: A Novel (Robert Langdon)    9780385537858    Out-of-Stock
     Add Book to Cart    ${link}
     Page Should Contain    The book will be shipped when it becomes available.
 
@@ -75,7 +75,7 @@ Pick An In-stock Book Into The Cart
     [Documentation]    Precondition: refered test data are already in database.
     Search With Word    9780201485677
     ${link}    Search Results Should Include    Refactoring: Improving the Design of Existing Code    9780201485677
-    Book Detail Should Contain    Refactoring: Improving the Design of Existing Code    9780201485677    In-Stock
+    Verify Book Detail    Refactoring: Improving the Design of Existing Code    9780201485677    In-Stock
     Add Book to Cart    ${link}
     Verify Quantity In Cart    Refactoring: Improving the Design of Existing Code    1
 
@@ -83,10 +83,53 @@ Pick A Second Book Into The Cart
     [Documentation]    Precondition: refered test data are already in database.
     Search With Word    9780201485677
     ${link}    Search Results Should Include    Refactoring: Improving the Design of Existing Code    9780201485677
-    Book Detail Should Contain    Refactoring: Improving the Design of Existing Code    9780201485677    In-Stock
+    Verify Book Detail    Refactoring: Improving the Design of Existing Code    9780201485677    In-Stock
     Add Book to Cart    ${link}
     Add Book to Cart    ${link}
     Verify Quantity In Cart    Refactoring: Improving the Design of Existing Code    2
+
+Adjust The Quantity Of A Book From One To Ten
+    [Documentation]    Precondition: refered test data are already in database.
+    Search With Word    9780201485677
+    ${link}    Search Results Should Include    Refactoring: Improving the Design of Existing Code    9780201485677
+    Verify Book Detail    Refactoring: Improving the Design of Existing Code    9780201485677    In-Stock
+    Add Book to Cart    ${link}
+    Verify Quantity In Cart    Refactoring: Improving the Design of Existing Code    1
+    Adjust Quantity    10
+    Verify Quantity In Cart    Refactoring: Improving the Design of Existing Code    10
+
+Adjust The Quantity Of A Book To Zero
+    [Documentation]    Precondition: refered test data are already in database.
+    Search With Word    9780201485677
+    ${link}    Search Results Should Include    Refactoring: Improving the Design of Existing Code    9780201485677
+    Verify Book Detail    Refactoring: Improving the Design of Existing Code    9780201485677    In-Stock
+    Add Book to Cart    ${link}
+    Verify Quantity In Cart    Refactoring: Improving the Design of Existing Code    1
+    Adjust Quantity    0
+    Cart Should Not Contain Book    Refactoring: Improving the Design of Existing Code
+
+Not Logged-in User Can Not Checkout Cart
+    [Documentation]    Precondition: refered test data are already in database.
+    Search With Word    9780201485677
+    ${link}    Search Results Should Include    Refactoring: Improving the Design of Existing Code    9780201485677
+    Add Book to Cart    ${link}
+    Verify Quantity In Cart    Refactoring: Improving the Design of Existing Code    1
+    Checkout Cart
+    Page Should Contain    Please login in order to checkout.
+    Page Should Contain Element    id=btnLogin
+
+Logged-in User Can Checkout Cart
+    [Documentation]    Precondition: refered test data are already in database.
+    Login To Public    uperform    uperform
+    Search With Word    9780201485677
+    ${link}    Search Results Should Include    Refactoring: Improving the Design of Existing Code    9780201485677
+    Add Book to Cart    ${link}
+    Verify Quantity In Cart    Refactoring: Improving the Design of Existing Code    1
+    Checkout Cart
+    Page Should Contain Element    id=btnConfirm
+    Confirm With Billing Info    Sanlitun, Beijing    No.1, Pudong, Shanghai    12345678
+    Page Should Contain    Welcome, uperform. Thanks for logging in.
+    Logout From Public
 
 *** Keywords ***
 For Loop
@@ -120,7 +163,7 @@ Search Results Should Include
     ${link}    Get Element Attribute    id=isbn_${ISBN}@href
     [Return]    ${link}
 
-Book Detail Should Contain
+Verify Book Detail
     [Arguments]    ${title}    ${ISBN}    ${stock_state}
     Click Link    id=isbn_${ISBN}
     Page Should Contain    ${title}
@@ -139,3 +182,24 @@ Verify Quantity In Cart
     Page Should Contain    ${title}
     ${fetched_qty}    Get Value    id=qty
     Should Be Equal    ${fetched_qty}    ${qty}
+
+Adjust Quantity
+    [Arguments]    ${qty}
+    Go To    http://127.0.0.1:8000/book/cart/
+    Input Text    id=qty    ${qty}
+    Click Element    id=adjust
+
+Cart Should Not Contain Book
+    [Arguments]    ${title}
+    Go To    http://127.0.0.1:8000/book/cart/
+    Page Should Not Contain    ${title}
+
+Checkout Cart
+    Click Element    id=checkout
+
+Confirm With Billing Info
+    [Arguments]    ${billingAddr}    ${shippingAddr}    ${creditCard}
+    Input Text    id=billingAddr    ${billingAddr}
+    Input Text    id=shippingAddr    ${shippingAddr}
+    Input Text    id=creditCard    ${creditCard}
+    Click Element    id=btnConfirm

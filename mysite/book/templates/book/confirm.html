@@ -5,10 +5,10 @@
 <p>Total Price: ${{ totalPrice }}</p>
 <form action="{% url 'book:confirm' %}" method="POST">
     {% csrf_token %}
-    <lable for="billingAddr">Billing Addr</lable><input id="billingAddr" name="billingAddr" value="" /> 
-    <lable for="shippingAddr">Shipping Addr</lable><input id="shippingAddr" name="shippingAddr" value="" /> 
-    <lable for="creditCard">Credit Card</lable><input id="creditCard" name="creditCard" value="" /> 
-    <input type="submit" id="confirm" value="Confirm" />        
+    <label for="billingAddr">Billing Addr</lable><input id="billingAddr" name="billingAddr" value="" /><br/>
+    <label for="shippingAddr">Shipping Addr</lable><input id="shippingAddr" name="shippingAddr" value="" /><br/>
+    <label for="creditCard">Credit Card</lable><input id="creditCard" name="creditCard" value="" /><br/>
+    <input type="submit" id="btnConfirm" value="Confirm" />        
 </form>
     
 

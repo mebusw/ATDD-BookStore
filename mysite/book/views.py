@@ -1,6 +1,6 @@
 # Create your views here.
 
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
@@ -44,12 +44,12 @@ def vote(request, poll_id):
         # user hits the Back button.
         return HttpResponseRedirect(reverse('polls:results', args=(p.id,)))
 '''
-def index(request):
+def index_view(request, error_message=None):
     books = Book.objects.all() 
-    return render(request, 'book/index.html', {'books': books})
+    return render(request, 'book/index.html', {'books': books, 'error_message': error_message})
 
     
-def detail(request, book_id):
+def detail_view(request, book_id):
     book = get_object_or_404(Book, pk=book_id)
     return render(request, 'book/detail.html', {'book': book})  
 
@@ -72,8 +72,8 @@ def login_view(request):
 
         
 def logout_view(request):
-    logout(request)        
-    return HttpResponseRedirect(reverse('book:index'))
+    logout(request)   
+    return redirect(reverse('book:index'))
 
 def search_view(request):
     if request.GET.has_key('q'):
@@ -111,7 +111,7 @@ def adjust_view(request):
     if qty <= 0:
         del request.session['cart'][book_id]       
     request.session.modified = True    
-    return HttpResponseRedirect(reverse('book:cart', args=()))
+    return redirect(reverse('book:cart', args=()))
 
 
 def cart_view(request):
@@ -125,6 +125,9 @@ def cart_view(request):
     return render(request, 'book/cart.html', {'boughtItems': boughtItems})
 
 def checkout_view(request):
+    if not request.user.is_authenticated():
+        return render(request, 'book/index.html', {'error_message': "Please login in order to checkout."})  
+
     totalPrice = request.session['totalPrice']
     return render(request, 'book/confirm.html', {'totalPrice': totalPrice})
 

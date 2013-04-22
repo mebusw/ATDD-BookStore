@@ -9,14 +9,14 @@
                 {% csrf_token %}
                 <input type="hidden" id="book_id" name="book_id" value="{{ item.book.id }}" />
                 <label for="qty">Qty:</lable><input id="qty" name="qty" value="{{ item.qty }}" />
-                <input type="submit" value="Adjust" />
+                <input type="submit" id="adjust" value="Adjust" />
             </form>
         </li>
     {% endfor %}
     </ul>
     <form action="{% url 'book:checkout' %}" method="POST">
         {% csrf_token %}
-        <input type="submit" value="Checkout" />        
+        <input type="submit" id="checkout" value="Checkout" />        
     </form>
     
 {% else %}

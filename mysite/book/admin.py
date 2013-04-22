@@ -1,5 +1,5 @@
 from django.contrib import admin
-from book.models import Book, Comment, Author, Bill
+from book.models import Book, Comment, Author, Bill, UserProfile
 '''
 #class ChoiceInline(admin.StackedInline):
 class ChoiceInline(admin.TabularInline):
@@ -41,6 +41,11 @@ class BookAdmin(admin.ModelAdmin):
 class BillAdmin(admin.ModelAdmin):
     model = Bill
     
+class UserProfileAdmin(admin.ModelAdmin):
+    model = UserProfile
+
+
 admin.site.register(Book, BookAdmin)
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(Bill, BillAdmin)
+admin.site.register(UserProfile, UserProfileAdmin)

@@ -51,3 +51,9 @@ class Bill(models.Model):
     shippingAddr = models.CharField(max_length=200)
     creditCard = models.IntegerField(default=10)
     books = models.ManyToManyField('Book')        
+
+class UserProfile(models.Model):   
+    user = models.ForeignKey(User)
+    billingAddr = models.CharField(max_length=200)
+    shippingAddr = models.CharField(max_length=200)
+    creditCard = models.IntegerField(default=10)
