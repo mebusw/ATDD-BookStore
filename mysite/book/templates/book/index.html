@@ -21,8 +21,8 @@
     
 </div>
         {% if notify_message %}<p><strong>{{ notify_message }}</strong></p>{% endif %}
-        <p><a href="{% url 'book:cart' %}">Cart</a></p>
-        <p><a href="{% url 'book:bills' %}">Bills</a></p>
+        <p><a id="cart" href="{% url 'book:cart' %}">Cart</a></p>
+        <p><a id="bills" href="{% url 'book:bills' %}">Bills</a></p>
         
 <div>
     <form action="{% url 'book:search' %}" method="get">
@@ -33,7 +33,7 @@
 {% if books %}
     <ul>
     {% for book in books %}
-        <li><a href="{% url 'book:detail' book.id %}">{{ book.title }}</a></li>
+        <li><a id="isbn_{{ book.isbn }}" href="{% url 'book:detail' book.id %}">{{ book.title }}</a></li>
     {% endfor %}
     </ul>
 {% else %}

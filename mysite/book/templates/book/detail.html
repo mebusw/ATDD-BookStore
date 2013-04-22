@@ -4,7 +4,7 @@
 <form action="{% url 'book:pick' %}" method="POST">
     {% csrf_token %}
     <input type="hidden" name="book_id" value="{{book.id}}" />
-    <input type="submit" value="Add to Cart" />
+    <input type="submit" id="btnAddToCart" value="Add to Cart" />
 </form>
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 

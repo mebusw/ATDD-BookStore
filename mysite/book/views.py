@@ -61,7 +61,6 @@ def login_view(request):
     if user is not None:
         if user.is_active:
             login(request, user)
-            request.session['cart'] = {}
             # Redirect to a success page.
             return HttpResponseRedirect(reverse('book:index'))
         else:
@@ -91,7 +90,11 @@ def search_view(request):
 
 def pick_view(request):
     book_id = request.POST['book_id']
-    print type(book_id)
+    if not Book.objects.get(pk=book_id).in_stock:
+        return render(request, 'book/detail.html', {'error_message': "The book will be shipped when it becomes available."})  
+
+    if not request.session.has_key('cart'):
+        request.session['cart'] = {}
     if request.session['cart'].has_key(book_id):
         qty = int(request.session['cart'][book_id]) + 1
     else:  

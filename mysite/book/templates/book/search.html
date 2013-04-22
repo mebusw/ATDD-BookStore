@@ -1,7 +1,7 @@
 <div>
     <form action="{% url 'book:search' %}" method="get">
         <input id="q" name="q" placeholder="9876 books" />
-        <input type="submit" value="Search" />
+        <input type="submit" id="search" value="Search" />
     </form>
 </div>
 {% if books %}

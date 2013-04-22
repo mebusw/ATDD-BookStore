@@ -1,15 +1,18 @@
 *** Settings ***
+Test Setup        Open Browser    http://127.0.0.1:8000/book/    ${browser}
 Test Teardown     Close Browser
 Library           Selenium2Library
 
 *** Variables ***
 ${username}       uperform
 ${password}       uperform
-@{os}       windows    macos    linux
-${browser}       firefox
+@{os}             windows    macos    linux
+${browser}        chrome
+${title}          Refactoring: Improving the Design of Existing Code
 
 *** Test Cases ***
 Built-in Syntax
+    [Setup]
     Log Many    @{os}
     For Loop
     ${fullName}    Full Name    Jacky    Shen
@@ -17,26 +20,22 @@ Built-in Syntax
     [Teardown]
 
 Admin Site
-    Open Browser    http://127.0.0.1:8000/admin/
+    Go To    http://127.0.0.1:8000/admin/
     Page Should Contain    admin
-    [Teardown]    Close Browser
 
 Login With Wrong Username
-    Open Browser    http://127.0.0.1:8000/book/    ${browser}
     Page Should Contain    Welcome to Book Store.
     Login To Public    abcdefg    uperform
     Page Should Contain    Wrong username or password!
     Page Should Contain Element    id=btnLogin
 
 Login With Wrong Password
-    Open Browser    http://127.0.0.1:8000/book/
     Page Should Contain    Welcome to Book Store.
     Login To Public    uperform    1234
     Page Should Contain    Wrong username or password!
     Page Should Contain Element    id=btnLogin
 
 Login With Correct Username And Password
-    Open Browser    http://127.0.0.1:8000/book/
     Page Should Contain    Welcome to Book Store.
     Login To Public    uperform    uperform
     Page Should Contain    Welcome, uperform. Thanks for logging in
@@ -44,28 +43,50 @@ Login With Correct Username And Password
     Logout From Public
 
 Search For A Word That Is Likely A Title But Not Author
-    Open Browser    http://127.0.0.1:8000/book/
     Search With Word    navigation
-    Search Results Should Include    Night Navigation
-    Search Results Should Include    POINT TO POINT NAVIGATION
+    Search Results Should Include    Night Navigation    9780547335971
+    Search Results Should Include    POINT TO POINT NAVIGATION    9780307275011
 
 Search For A Word That Is Likely An Author But Not Title
-    Open Browser    http://127.0.0.1:8000/book/
     Search With Word    Fowler
-    Search Results Should Include    Patterns of Enterprise Application Architecture
-    Search Results Should Include    Refactoring: Improving the Design of Existing Code
+    Search Results Should Include    Patterns of Enterprise Application Architecture    9780321127426
+    Search Results Should Include    Refactoring: Improving the Design of Existing Code    9780201485677
 
 Search For A Word That Is Likely An Author And A Title
-    Open Browser    http://127.0.0.1:8000/book/
     Search With Word    brown
-    Search Results Should Include    Inferno: A Novel (Robert Langdon)
-    Search Results Should Include    Brown Bear, Brown Bear, What Do You See? My First Reader
+    Search Results Should Include    Inferno: A Novel (Robert Langdon)    9780385537858
+    Search Results Should Include    Brown Bear, Brown Bear, What Do You See? My First Reader    9780805092448
 
-Search For TSBN Number
-    Open Browser    http://127.0.0.1:8000/book/
+Search For ISBN Number
+    [Documentation]    Precondition: refered test data are already in database.
     Search With Word    9780385537858
-    Search Results Should Include    Inferno: A Novel (Robert Langdon)
-    Book Detail Should Contain    Inferno: A Novel (Robert Langdon)    9780385537858
+    Search Results Should Include    Inferno: A Novel (Robert Langdon)    9780385537858
+    Book Detail Should Contain    Inferno: A Novel (Robert Langdon)    9780385537858    Out-of-Stock
+
+Pick An Out-of-stock Book Into The Cart
+    [Documentation]    Precondition: refered test data are already in database.
+    Search With Word    9780385537858
+    ${link}    Search Results Should Include    Inferno: A Novel (Robert Langdon)    9780385537858
+    Book Detail Should Contain    Inferno: A Novel (Robert Langdon)    9780385537858    Out-of-Stock
+    Add Book to Cart    ${link}
+    Page Should Contain    The book will be shipped when it becomes available.
+
+Pick An In-stock Book Into The Cart
+    [Documentation]    Precondition: refered test data are already in database.
+    Search With Word    9780201485677
+    ${link}    Search Results Should Include    Refactoring: Improving the Design of Existing Code    9780201485677
+    Book Detail Should Contain    Refactoring: Improving the Design of Existing Code    9780201485677    In-Stock
+    Add Book to Cart    ${link}
+    Verify Quantity In Cart    Refactoring: Improving the Design of Existing Code    1
+
+Pick A Second Book Into The Cart
+    [Documentation]    Precondition: refered test data are already in database.
+    Search With Word    9780201485677
+    ${link}    Search Results Should Include    Refactoring: Improving the Design of Existing Code    9780201485677
+    Book Detail Should Contain    Refactoring: Improving the Design of Existing Code    9780201485677    In-Stock
+    Add Book to Cart    ${link}
+    Add Book to Cart    ${link}
+    Verify Quantity In Cart    Refactoring: Improving the Design of Existing Code    2
 
 *** Keywords ***
 For Loop
@@ -88,15 +109,33 @@ Logout From Public
 
 Search With Word
     [Arguments]    ${q}
+    Go To    http://127.0.0.1:8000/book/search
     Input Text    id=q    ${q}
     Click Button    id=search
 
 Search Results Should Include
-    [Arguments]    ${title}
+    [Arguments]    ${title}    ${isbn}
+    Page Should Contain Element    id=isbn_${ISBN}
     Page Should Contain    ${title}
+    ${link}    Get Element Attribute    id=isbn_${ISBN}@href
+    [Return]    ${link}
 
 Book Detail Should Contain
-    [Arguments]    ${title}    ${ISBN}
+    [Arguments]    ${title}    ${ISBN}    ${stock_state}
     Click Link    id=isbn_${ISBN}
     Page Should Contain    ${title}
     Page Should Contain    ${ISBN}
+    Page Should Contain    ${stock_state}
+
+Add Book to Cart
+    [Arguments]    ${link}
+    Go To    ${link}
+    Wait Until Page Contains Element    id=btnAddToCart
+    Click Element    id=btnAddToCart
+
+Verify Quantity In Cart
+    [Arguments]    ${title}    ${qty}
+    Go To    http://127.0.0.1:8000/book/cart/
+    Page Should Contain    ${title}
+    ${fetched_qty}    Get Value    id=qty
+    Should Be Equal    ${fetched_qty}    ${qty}
