@@ -5,7 +5,8 @@
 {% if bills %}
     <ul>
     {% for bill in bills %}
-        <li>
+        <li id="billId_{{ bill.id }}">
+            <p>Bill Id: {{ bill.id }}</p>
             <p>Total Price: ${{ bill.totalPrice }}</p>
             <p>Checkout Date: ${{ bill.checkout_date }}</p>
             <ol>

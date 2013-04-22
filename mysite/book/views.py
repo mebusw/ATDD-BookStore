@@ -131,6 +131,7 @@ def checkout_view(request):
     userProfile = UserProfile.objects.get(user=request.user)
     return render(request, 'book/confirm.html', {'totalPrice': totalPrice, 'userProfile': userProfile})
 
+@login_required(login_url='/book/')
 def confirm_view(request):
     bill = Bill(user=request.user, checkout_date=datetime.datetime.now(), totalPrice=request.session['totalPrice'])
     bill.save()
@@ -146,7 +147,9 @@ def confirm_view(request):
     userProfile.save()
 
     request.session['cart'] = {}
-    return HttpResponseRedirect(reverse('book:index', args=()))
+    return render(request, 'book/summary.html', {'bill': bill})
+
+
 
 @login_required(login_url='/book/')
 def bills_view(request):

@@ -1,0 +1,15 @@
+<h2>Checkout Summary</h2>
+
+<a href="{% url 'book:index' %}">Continoue shopping</a>
+<a href="{% url 'book:bills' %}">Bills history</a>
+
+    <p>Success.</p>
+    <p>Bill Id: <span id="billId">{{ bill.id }}</span></p>
+    <p>Total Price: ${{ bill.totalPrice }}</p>
+    <p>Checkout Date: ${{ bill.checkout_date }}</p>
+    <ol>
+    {% for book in bill.booksHistory %}            
+        <li><a href="{% url 'book:detail' book.id %}">{{ book.title }}</a></li>
+    {% endfor %}
+    </ol>
+
