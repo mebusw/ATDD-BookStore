@@ -148,8 +148,9 @@ def confirm_view(request):
     request.session['cart'] = {}
     return HttpResponseRedirect(reverse('book:index', args=()))
 
+@login_required(login_url='/book/')
 def bills_view(request):
-    bills = Bill.objects.all()
+    bills = Bill.objects.filter(user=request.user)
     for b in bills:
         b.booksHistory = b.books.all()
     return render(request, 'book/bills.html', {'bills': bills})
