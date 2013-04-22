@@ -20,9 +20,15 @@ Built-in Syntax
     Log    ${fullName}
     [Teardown]
 
-Admin Site
-    Go To    http://127.0.0.1:8000/admin/
-    Page Should Contain    admin
+Admin Can Add Then Delete Book
+    Login To Admin    uperform    uperform
+    Add A Book Thru Admin
+    Page Should Contain    Star Wars: Vader's Little Princess
+    Click Link    link=Star Wars: Vader's Little Princess
+    Click Link    link=Delete
+    Click Button    css=input[type='submit']
+    Page Should Contain    was deleted successfully.
+    Logout From Admin
 
 Login With Wrong Username
     Page Should Contain    Welcome to Book Store.
@@ -260,3 +266,30 @@ History Should Include
     [Arguments]    ${billId}
     Go To    ${baseUrl}/bills
     Page Should Contain Element    id=billId_${billId}
+
+Login To Admin
+    [Arguments]    ${username}    ${password}
+    Go To    http://127.0.0.1:8000/admin/
+    Input Text    id=id_username    ${username}
+    Input Text    id=id_password    ${password}
+    Click Button    css=input[type='submit']
+    Page Should Contain    ${username}
+
+Logout From Admin
+    Go To    http://127.0.0.1:8000/admin/logout
+
+Add A Book Thru Admin
+    Click Link    link=Books
+    Click Link    link=Add book
+    Input Text    id=id_title    Star Wars: Vader's Little Princess
+    Input Text    id=id_pub_date_0    2013-04-22
+    Input Text    id=id_pub_date_1    22:06:30
+    Input Text    id_quatity    20
+    Select Checkbox    id=id_in_stock
+    Input Text    id=id_isbn    9781452118697
+    Input Text    id=id_rating    5
+    Input Text    id=id_description    Das Vader
+    Input Text    id=id_numberOfPages    99
+    Input Text    id=id_price    6
+    Select From List    id_authors    Bill    Jobs
+    Click Button    css=input[value='Save']
