@@ -4,6 +4,7 @@
     {% if user.is_authenticated %}
         <p>Welcome, {{ user.username }}. Thanks for logging in.
             <a id="btnLogout" href="{% url 'book:logout' %}">Logout</a>
+            <a id="btnProfile" href="{% url 'book:profile' %}">Profile</a>
         </p>
     {% else %}
         <p>Welcome, Please log in.</p>

@@ -115,7 +115,6 @@ Not Logged-in User Can Not Checkout Cart
     Add Book to Cart    ${link}
     Verify Quantity In Cart    Refactoring: Improving the Design of Existing Code    1
     Checkout Cart
-    Page Should Contain    Please login in order to checkout.
     Page Should Contain Element    id=btnLogin
 
 Logged-in User Can Checkout Cart
@@ -126,9 +125,28 @@ Logged-in User Can Checkout Cart
     Add Book to Cart    ${link}
     Verify Quantity In Cart    Refactoring: Improving the Design of Existing Code    1
     Checkout Cart
-    Page Should Contain Element    id=btnConfirm
-    Confirm With Billing Info    Sanlitun, Beijing    No.1, Pudong, Shanghai    12345678
+    Fill Billing Info    Sanlitun, Beijing    No.1, Pudong, Shanghai    12345678
+    Confirm Billing
     Page Should Contain    Welcome, uperform. Thanks for logging in.
+    Logout From Public
+
+Billing Info Confirmed Should Be Updated To Profile
+    [Documentation]    Precondition: refered test data are already in database.
+    Login To Public    uperform    uperform
+    ${link}    Search Results Should Include    Refactoring: Improving the Design of Existing Code    9780201485677
+    Add Book to Cart    ${link}
+    Verify Quantity In Cart    Refactoring: Improving the Design of Existing Code    1
+    Checkout Cart
+    Fill Billing Info    Sanlitun, Beijing    No.1, Pudong, Shanghai    12345678
+    Confirm Billing
+    Verify Billing Info    Sanlitun, Beijing    No.1, Pudong, Shanghai    12345678
+    Logout From Public
+
+User Can Update Billing Info In Profile
+    [Documentation]    Precondition: refered test data are already in database.
+    Login To Public    uperform    uperform
+    Update Billing Info    Wudaokou Beijing    No.9, Zhangjiang Shanghai    98765432
+    Verify Billing Info    Wudaokou Beijing    No.9, Zhangjiang Shanghai    98765432
     Logout From Public
 
 *** Keywords ***
@@ -197,9 +215,28 @@ Cart Should Not Contain Book
 Checkout Cart
     Click Element    id=checkout
 
-Confirm With Billing Info
+Confirm Billing
+    Click Element    id=btnConfirm
+
+Fill Billing Info
     [Arguments]    ${billingAddr}    ${shippingAddr}    ${creditCard}
     Input Text    id=billingAddr    ${billingAddr}
     Input Text    id=shippingAddr    ${shippingAddr}
     Input Text    id=creditCard    ${creditCard}
-    Click Element    id=btnConfirm
+
+Verify Billing Info
+    [Arguments]    ${billingAddr}    ${shippingAddr}    ${creditCard}
+    Click Element    id=btnProfile
+    ${fetched_billingAddr}    Get Value    id=billingAddr
+    ${fetched_shippingAddr}    Get Value    id=shippingAddr
+    ${fetched_creditCard}    Get Value    id=creditCard
+    Should Be Equal    ${fetched_billingAddr}    ${billingAddr}
+    Should Be Equal    ${fetched_shippingAddr}    ${shippingAddr}
+    Should Be Equal    ${fetched_creditCard}    ${creditCard}
+    Click Element    id=btnCancel
+
+Update Billing Info
+    [Arguments]    ${billingAddr}    ${shippingAddr}    ${creditCard}
+    Click Element    id=btnProfile
+    Fill Billing Info    ${billingAddr}    ${shippingAddr}    ${creditCard}
+    Click Element    id=btnUpdate

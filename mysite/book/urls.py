@@ -21,6 +21,8 @@ urlpatterns = patterns('',
     url(r'^checkout/$', views.checkout_view, name='checkout'),     
     url(r'^confirm/$', views.confirm_view, name='confirm'),     
     url(r'^bills/$', views.bills_view, name='bills'),
+    url(r'^profile/$', views.profile_view, name='profile'),    
+    url(r'^updateProfile/$', views.updateProfile_view, name='updateProfile'),    
 )
 
 

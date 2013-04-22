@@ -4,8 +4,9 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.db.models import F, Q
-from book.models import Book, Comment, Author, Bill
+from book.models import Book, Comment, Author, Bill, UserProfile
 import datetime
 
 '''
@@ -70,7 +71,7 @@ def login_view(request):
         # Return an 'invalid login' error message.        
         return render(request, 'book/index.html', {'error_message': "Wrong username or password!"})  
 
-        
+@login_required(login_url='/book/')
 def logout_view(request):
     logout(request)   
     return redirect(reverse('book:index'))
@@ -124,12 +125,11 @@ def cart_view(request):
     request.session.modified = True 
     return render(request, 'book/cart.html', {'boughtItems': boughtItems})
 
+@login_required(login_url='/book/')
 def checkout_view(request):
-    if not request.user.is_authenticated():
-        return render(request, 'book/index.html', {'error_message': "Please login in order to checkout."})  
-
     totalPrice = request.session['totalPrice']
-    return render(request, 'book/confirm.html', {'totalPrice': totalPrice})
+    userProfile = UserProfile.objects.get(user=request.user)
+    return render(request, 'book/confirm.html', {'totalPrice': totalPrice, 'userProfile': userProfile})
 
 def confirm_view(request):
     bill = Bill(user=request.user, checkout_date=datetime.datetime.now(), totalPrice=request.session['totalPrice'])
@@ -138,6 +138,13 @@ def confirm_view(request):
         book = Book.objects.get(pk=book_id)
         bill.books.add(book)
     bill.save()
+
+    userProfile = UserProfile.objects.get(user=request.user)
+    userProfile.billingAddr = request.POST['billingAddr']
+    userProfile.shippingAddr = request.POST['shippingAddr']
+    userProfile.creditCard = request.POST['creditCard']
+    userProfile.save()
+
     request.session['cart'] = {}
     return HttpResponseRedirect(reverse('book:index', args=()))
 
@@ -147,3 +154,16 @@ def bills_view(request):
         b.booksHistory = b.books.all()
     return render(request, 'book/bills.html', {'bills': bills})
 
+@login_required(login_url='/book/')
+def profile_view(request):
+    userProfile = UserProfile.objects.get(user=request.user)
+    return render(request, 'book/profile.html', {'userProfile': userProfile})
+
+@login_required(login_url='/book/')
+def updateProfile_view(request):
+    userProfile = UserProfile.objects.get(user=request.user)
+    userProfile.billingAddr = request.POST['billingAddr']
+    userProfile.shippingAddr = request.POST['shippingAddr']
+    userProfile.creditCard = request.POST['creditCard']
+    userProfile.save()
+    return redirect(reverse('book:index', args=()))
