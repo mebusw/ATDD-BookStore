@@ -7,7 +7,7 @@ Library           Selenium2Library
 ${username}       uperform
 ${password}       uperform
 @{os}             windows    macos    linux
-${browser}        chrome
+${browser}        firefox
 ${title}          Refactoring: Improving the Design of Existing Code
 ${baseUrl}        http://127.0.0.1:8000/book
 
@@ -122,7 +122,6 @@ Not Logged-in User Can Not Checkout Cart
     Add Book to Cart    ${link}
     Verify Quantity In Cart    Refactoring: Improving the Design of Existing Code    1
     Checkout Cart
-    Page Should Contain Element    id=btnLogin
 
 Logged-in User Can Checkout Cart
     [Documentation]    Precondition: refered test data are already in database.
@@ -247,7 +246,7 @@ Fill Billing Info
 
 Verify Billing Info
     [Arguments]    ${billingAddr}    ${shippingAddr}    ${creditCard}
-    Click Element    id=btnProfile
+    Go To    ${baseUrl}/profile
     ${fetched_billingAddr}    Get Value    id=billingAddr
     ${fetched_shippingAddr}    Get Value    id=shippingAddr
     ${fetched_creditCard}    Get Value    id=creditCard
@@ -284,7 +283,7 @@ Add A Book Thru Admin
     Input Text    id=id_title    Star Wars: Vader's Little Princess
     Input Text    id=id_pub_date_0    2013-04-22
     Input Text    id=id_pub_date_1    22:06:30
-    Input Text    id_quatity    20
+    Input Text    id=id_quatity    20
     Select Checkbox    id=id_in_stock
     Input Text    id=id_isbn    9781452118697
     Input Text    id=id_rating    5
