@@ -91,7 +91,8 @@ def search_view(request):
 
 def pick_view(request):
     book_id = request.POST['book_id']
-    if not Book.objects.get(pk=book_id).in_stock:
+    book = get_object_or_404(Book, pk=book_id)
+    if not book.in_stock:
         return render(request, 'book/detail.html', {'error_message': "The book will be shipped when it becomes available."})  
 
     if not request.session.has_key('cart'):
@@ -118,11 +119,12 @@ def adjust_view(request):
 def cart_view(request):
     boughtItems = []
     totalPrice = 0
-    for (book_id, qty) in request.session['cart'].iteritems():
-        boughtItems.append({'book': Book.objects.get(pk=book_id), 'qty': qty})   
-        totalPrice += Book.objects.get(pk=book_id).price * qty
-    request.session['totalPrice'] = totalPrice
-    request.session.modified = True 
+    if request.session['cart']:
+        for (book_id, qty) in request.session['cart'].iteritems():
+            boughtItems.append({'book': Book.objects.get(pk=book_id), 'qty': qty})   
+            totalPrice += Book.objects.get(pk=book_id).price * qty
+        request.session['totalPrice'] = totalPrice
+        request.session.modified = True 
     return render(request, 'book/cart.html', {'boughtItems': boughtItems})
 
 @login_required(login_url='/book/')
