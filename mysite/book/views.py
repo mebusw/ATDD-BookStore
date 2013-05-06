@@ -119,12 +119,14 @@ def adjust_view(request):
 def cart_view(request):
     boughtItems = []
     totalPrice = 0
-    if request.session['cart']:
-        for (book_id, qty) in request.session['cart'].iteritems():
-            boughtItems.append({'book': Book.objects.get(pk=book_id), 'qty': qty})   
-            totalPrice += Book.objects.get(pk=book_id).price * qty
-        request.session['totalPrice'] = totalPrice
-        request.session.modified = True 
+    if not request.session.has_key('cart'):
+        request.session['cart'] = {}
+
+    for (book_id, qty) in request.session['cart'].iteritems():
+        boughtItems.append({'book': Book.objects.get(pk=book_id), 'qty': qty})   
+        totalPrice += Book.objects.get(pk=book_id).price * qty
+    request.session['totalPrice'] = totalPrice
+    request.session.modified = True 
     return render(request, 'book/cart.html', {'boughtItems': boughtItems})
 
 @login_required(login_url='/book/')
