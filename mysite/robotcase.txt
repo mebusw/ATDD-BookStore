@@ -31,21 +31,21 @@ Admin Can Add Then Delete Book
     Logout From Admin
 
 Login With Wrong Username
-    Page Should Contain    Welcome to Book Store.
+    Page Should Contain    Book Store
     Login To Public    abcdefg    uperform
     Page Should Contain    Wrong username or password!
     Page Should Contain Element    id=btnLogin
 
 Login With Wrong Password
-    Page Should Contain    Welcome to Book Store.
+    Page Should Contain    Book Store
     Login To Public    uperform    1234
     Page Should Contain    Wrong username or password!
     Page Should Contain Element    id=btnLogin
 
 Login With Correct Username And Password
-    Page Should Contain    Welcome to Book Store.
+    Page Should Contain    Book Store
     Login To Public    uperform    uperform
-    Page Should Contain    Welcome, uperform. Thanks for logging in
+    Page Should Contain    uperform, Thanks for logging in
     Page Should Contain Element    id=btnLogout
     Logout From Public
 
