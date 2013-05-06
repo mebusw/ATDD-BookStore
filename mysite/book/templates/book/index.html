@@ -1,43 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% load static %}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<div>
-    <h1>Welcome to Book Store.</h1>
-    {% if user.is_authenticated %}
-        <p>Welcome, {{ user.username }}. Thanks for logging in.
-            <a id="btnLogout" href="{% url 'book:logout' %}">Logout</a>
-            <a id="btnProfile" href="{% url 'book:profile' %}">Profile</a>
-        </p>
-    {% else %}
-        <p>Welcome, Please log in.</p>
-        {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<link rel="stylesheet" type="text/css" href="{% static "book/css/bootstrap.min.css" %}"/>
+<link rel="stylesheet" type="text/css" href="{% static "book/css/bootstrap-responsive.min.css" %}"/>
+<link rel="stylesheet" type="text/css" href="{% static "book/css/style.css" %}"/>
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+    <script src="{% static "book/js/html5shiv.js" %}></script>
+  <![endif]-->
 
-        <form action="{% url 'book:login' %}" method="post">
-        {% csrf_token %}
-            <label for="username">username</label>
-            <input type="text" id="username" name="username" placeholder="username" value="uperform" /><br/>
-            <label for="password">password</label>
-            <input type="password" id="password" name="password" placeholder="password" value="uperform" /><br/>
-            <input type="submit" id="btnLogin" value="Login"/>
-        </form>
-    {% endif %}
-    
+<!-- Fav and touch icons -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="{% static "book/img/apple-touch-icon-144-precomposed.png" %}">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="{% static "book/img/apple-touch-icon-114-precomposed.png" %}">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static "book/img/apple-touch-icon-72-precomposed.png" %}">
+<link rel="apple-touch-icon-precomposed" href="{% static "book/img/apple-touch-icon-57-precomposed.png" %}">
+<link rel="shortcut icon" href="{% static "book/img/favicon.png" %}">
+
+
+<script type="text/javascript" src="{% static "book/js/jquery.min.js" %}"></script>
+<script type="text/javascript" src="{% static "book/js/bootstrap.min.js" %}"></script>
+<script type="text/javascript" src="{% static "book/js/scripts.js" %}"></script>
+</head>
+
+<body>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="navbar navbar-inverse">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                         <a data-target=".navbar-responsive-collapse" data-toggle="collapse" class="btn btn-navbar"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a> <a href="#" class="brand">Book Store</a>
+                        <div class="nav-collapse collapse navbar-responsive-collapse">
+                            <ul class="nav">
+                                <li class="active">
+                                    <a href="#">Home</a>
+                                </li>
+                                <li>
+                                    <a id="cart" href="{% url 'book:cart' %}">Cart</a>
+                                </li>
+                            </ul>
+                            <ul class="nav pull-right">
+                                {% if user.is_authenticated %}
+                                <li>
+                                    <a id="bills" href="{% url 'book:bills' %}">Bills</a>
+                                </li>
+                                <li>
+                                    <a id="btnProfile" href="{% url 'book:profile' %}">Profile</a>
+                                </li>                        
+                                <li>
+                                    <a id="btnLogout" href="{% url 'book:logout' %}">Logout</a>
+                                </li>
+                                {% endif %}
+                                <li class="divider-vertical">
+                                </li>
+                                <li class="dropdown">
+                                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">Dropdown<strong class="caret"></strong></a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="#">Action</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Another action</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Something else here</a>
+                                        </li>
+                                        <li class="divider">
+                                        </li>
+                                        <li class="nav-header">
+                                            Nav header
+                                        </li>
+                                        <li>
+                                            <a href="#">Separated link</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">One more separated link</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </div>
+            <div class="row-fluid">
+                <div class="span8">
+                    <form class="form-search" action="{% url 'book:search' %}" method="get">
+                        <input type="text" class="input-medium search-query" id="q" name="q" placeholder="9876 books" />
+                        <button class="btn" type="submit" id="search">Search</button>
+                    </form>
+                    {% if books %}
+                        <ul>
+                        {% for book in books %}
+                            <li><a id="isbn_{{ book.isbn }}" href="{% url 'book:detail' book.id %}">{{ book.title }}</a></li>
+                        {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No book are in stock.</p>
+                    {% endif %}
+                </div>
+                <div class="span4">        
+                    {% if user.is_authenticated %}
+                    <div class="alert alert-info">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <h4>
+                            Welcome!
+                        </h4> <strong>{{ user.username }}</strong>, Thanks for logging in.
+                        {% if notify_message %}<strong>{{ notify_message }}</strong>{% endif %}
+                    </div>
+                    {% else %}
+
+                    {% if error_message %}
+                    <div class="alert">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        <h4>
+                            {{ error_message }}
+                        </h4>
+                    </div>
+                    {% endif %}
+                    <form action="{% url 'book:login' %}" method="post">
+                        {% csrf_token %}
+                        <fieldset>
+                            <legend>Login</legend>
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" placeholder="username" value="uperform" />
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" placeholder="password" value="uperform" />
+                            <button type="submit" id="btnLogin" value="Login" class="btn">Submit</button>
+                        </fieldset>
+                    </form>
+
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-        {% if notify_message %}<p><strong>{{ notify_message }}</strong></p>{% endif %}
-        <p><a id="cart" href="{% url 'book:cart' %}">Cart</a></p>
-        <p><a id="bills" href="{% url 'book:bills' %}">Bills</a></p>
-        
-<div>
-    <form action="{% url 'book:search' %}" method="get">
-        <input id="q" name="q" placeholder="9876 books" />
-        <input type="submit" id="search" value="Search" />
-    </form>
-</div>
-{% if books %}
-    <ul>
-    {% for book in books %}
-        <li><a id="isbn_{{ book.isbn }}" href="{% url 'book:detail' book.id %}">{{ book.title }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No book are in stock.</p>
-{% endif %}
 
+
+</body>
+</html>
