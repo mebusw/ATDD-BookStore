@@ -12,12 +12,31 @@ Documentation     Example test case using the gherkin syntax.
 ...               by the business people.
 Library           CalculatorLibrary
 
+
 *** Test Cases ***
 Addition
     Given calculator has been cleared
     When user types "1 + 1"
-    and user pushes equals
+    And user pushes equals
     Then result is "2"
+
+清华的书在上海内免费快递
+    Given 清华出版社名为Agile Manifesto的书价值10元
+    And 到上海的快递费2元 
+    When 用户结账
+    Then 用户应当付款10元
+
+上海之外收费快递
+    Given 清华出版社名为Agile Manifesto的书价值10元
+    And 到杭州的快递费5元 
+    When 用户结账
+    Then 用户应当付款15元
+
+邮电的书收费快递
+    Given 邮电出版社名为ATDD by example的书价值15元
+    And 到上海的快递费2元 
+    When 用户结账
+    Then 用户应当付款17元
 
 *** Keywords ***
 Calculator has been cleared
@@ -31,3 +50,17 @@ User pushes equals
 
 Result is "${result}"
     Result should be    ${result}
+
+
+${publisher}出版社名为${bookName}的书价值${price}元
+    Log Many    ${publisher}    ${bookName}     ${price}
+#    Add Book    ${bookName} ${price}
+
+到${city}的快递费${fee}元 
+    Log Many    ${city}    ${fee}
+
+用户结账
+    Log    checkout
+
+用户应当付款${charge}元
+    Log Many    ${charge}
