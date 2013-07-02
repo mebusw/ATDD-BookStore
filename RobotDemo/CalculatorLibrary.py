@@ -1,4 +1,4 @@
-from calculator import Calculator, CalculationError
+from calculator import Calculator, CalculationError, Cart
 
 
 class CalculatorLibrary(object):
@@ -9,6 +9,7 @@ class CalculatorLibrary(object):
 
     def __init__(self):
         self._calc = Calculator()
+        self._cart = Cart()
         self._result = ''
 
     def push_button(self, button):
@@ -64,3 +65,17 @@ class CalculatorLibrary(object):
             return str(err)
         else:
             raise AssertionError("'%s' should caused an error" % expression)
+
+    def add_book_to_cart(self, bookname, price, publisher):
+        self._cart.addBook(bookname, price, publisher)
+
+    def configure_delivery_fee(self, city, fee):
+        self._cart.setFeeOfCity(city, fee)
+
+    def checkout(self, city):
+        self._cart.caculate(city)
+
+    def charge_should_be(self, expected):
+        if self._cart.sum != int(expected):
+            raise AssertionError('%s != %s' % (self._cart.sum, expected))
+        print expected
