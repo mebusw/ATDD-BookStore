@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     Example test case using the gherkin syntax.
+Documentation     为了提高在线购书的积极性，作为一个购书者，我希望得到免费快递
 ...
 ...               This test has a workflow similar to the keyword-driven
 ...               examples. The difference is that the keywords use higher
