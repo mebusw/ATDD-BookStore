@@ -11,16 +11,16 @@ end
 After do
 end
 
-Given /我已经在计算器里输入(\d+)/ do |n|
+Given /I have entered (\d+) into the calculator/ do |n|
   @calc.push n.to_i
 end
 
-When /我按(.*)按钮/ do |op|
-  if op == '相加'
-    @result = @calc.send "add"
+When /I press (\w+)/ do |op|
+  if op == 'add'
+    @result = @calc.send op
   end
 end
 
-Then /我应该在屏幕上看到的结果是(.*)/ do |result|
+Then /the result should be (.*) on the screen/ do |result|
   @result.should == result.to_f
 end

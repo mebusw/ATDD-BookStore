@@ -1,17 +1,18 @@
-# language: en
-Feature: Addition
-  In order to avoid silly mistakes
-  As a math idiot 
-  I want to be told the sum of two numbers
+# language: zh-CN
+功能:加法
+  为了避免一些愚蠢的错误
+  作为一个数学白痴
+  我希望有人告诉我数字相加的结果
 
-  Scenario Outline: Add two numbers
-    Given I have entered <input_1> into the calculator
-    And I have entered <input_2> into the calculator
-    When I press <button>
-    Then the result should be <output> on the screen
+  场景: 两个数相加
+    假如我已经在计算器里输入6
+    而且我已经在计算器里输入7
+    当我按相加按钮
+    那么我应该在屏幕上看到的结果是13
 
-  Examples:
-    | input_1 | input_2 | button | output |
-    | 20      | 30      | add    | 50     |
-    | 2       | 5       | add    | 7      |
-    | 0       | 40      | add    | 40     |
+  场景: 三个数相加
+    假如我已经在计算器里输入6
+    而且我已经在计算器里输入7
+    而且我已经在计算器里输入1
+    当我按相加按钮
+    那么我应该在屏幕上看到的结果是14
