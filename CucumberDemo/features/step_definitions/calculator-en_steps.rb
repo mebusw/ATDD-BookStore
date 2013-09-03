@@ -24,3 +24,16 @@ end
 Then /the result should be (.*) on the screen/ do |result|
   @result.should == result.to_f
 end
+
+When(/^I touch "(.*?)"$/) do |arg1|
+  i = 1
+end
+
+Given(/^I fill in text fields as follows:$/) do |table|
+  #puts table.raw
+  #fail(msg="Error. Check log for details.")
+end
+
+And /^It should (pass|fail) with (.*)$/ do |pass_fail, json|
+	puts pass_fail, json
+end
