@@ -17,3 +17,20 @@ Scenario Outline: Add two numbers
     | 20      | 30      | add    | 50     |
     | 2       | 5       | add    | 7      |
     | 0       | 40      | add    | 40     |
+
+Scenario: Fill
+    Given I fill in text fields as follows:
+     | field      | text    |
+     | Last Name  | Krukow  |
+     | Email      | a@b.c   |
+     | Username   | krukow  |
+     | Password   | 123     |
+     | Confirm    | 123     |
+
+
+
+
+
+Scenario: Touching
+    Then I touch "accLabel"
+    And It should pass with 123
