@@ -38,6 +38,10 @@ Addition
     When 用户结账到上海
     Then 用户应当付款17元
 
+加法模板    [Template]  Calculate
+    12 + 2 + 2    16
+    2 + -3        -1
+
 *** Keywords ***
 Calculator has been cleared
     Push button    C
@@ -67,3 +71,8 @@ Given ${publisher}出版社名为${bookName}的书价值${price}元
 用户应当付款${charge}元
     Log Many    ${charge}
     Charge Should be    ${charge}
+
+Calculate
+    [Arguments]    ${expression}    ${expected}
+    Push buttons    C${expression}=
+    Result should be    ${expected}
