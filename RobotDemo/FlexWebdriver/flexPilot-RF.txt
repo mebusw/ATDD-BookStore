@@ -9,5 +9,8 @@ Library           Selenium2Library
 *** Test Cases ***
 FlexPilotAPI
     Open Browser    http://127.0.0.1:8000/
-    Page Should Contain Element id=loginApp
-    ${ret}  Execute Javascript  return document.loginApp.fp_type({'name':'username_field', 'text':'abc'});
+    Set Selenium Speed  1
+    Wait Until Page Contains Element    id=loginApp
+    ${ret}  Execute Javascript  window.document.loginApp.fp_type({name:'username_field', text:'abc'});
+    # ${ret}  Execute Javascript  return window.document.loginApp.fp_type;
+    [Teardown]  Close Browser
