@@ -1,0 +1,13 @@
+*** Settings ***
+Documentation     RF + FlexPilot
+...
+Library           Selenium2Library
+# Library           Selenium2LibraryExtensions
+
+
+
+*** Test Cases ***
+FlexPilotAPI
+    Open Browser    http://127.0.0.1:8000/
+    Page Should Contain Element id=loginApp
+    ${ret}  Execute Javascript  return document.loginApp.fp_type({'name':'username_field', 'text':'abc'});
