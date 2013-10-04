@@ -12,7 +12,6 @@ Documentation     为了提高在线购书的积极性，作为一个购书者�
 ...               by the business people.
 Library           CalculatorLibrary
 Library           Selenium2Library
-Library           Selenium2LibraryExtensions
 
 
 
@@ -22,12 +21,9 @@ Addition
     When user types "1 + 1"
     And user pushes equals
     Then result is "2"
-    Open Browser    http://www.w3schools.com/html/html5_draganddrop.asp    chrome
-    Selenium2Library.Drag And Drop    div1    div2
-    # Open Browser    http://jqueryui.com/droppable/    chrome
-    # Selenium2LibraryExtensions.Drag And Drop    draggable    droppable
-    # Element Text Should Be    xpath=//div[@id='droppable']/p    Dropped!
-    [Teardown]    Close Browser
+    # Open Browser    http://html5demos.com/drag    ff
+    # Selenium2Library.Drag And Drop    two    bin
+    # [Teardown]    Close Browser
 
 清华的书在上海内免费快递
     Given 清华出版社名为Agile Manifesto的书价值10元
