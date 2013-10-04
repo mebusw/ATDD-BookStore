@@ -1,0 +1,88 @@
+*** Settings ***
+Documentation  	Sample Suite
+#Resource	resources.tsv
+#Library	MYLibrary
+#Test Setup	Open Browser
+#Test Teardown	Close Browser
+
+
+*** Variables ***
+${INVALID USERNAME}	abcdefgh
+${INVALID PASSWORD}	12345678
+@{TOOLS}	pybot	jybot
+@{LIST}	one	two	three
+@{LOOP_LIST_MULTI}	a1	b1	a2	b2	a3	b3
+${SWITCH}	Off
+${TIMES}	5
+
+*** Test Cases ***
+Scalar And List Variables
+	Login With Parameters	${INVALID USERNAME}	${INVALID PASSWORD}
+	Login With Parameters	@{TOOLS}
+	Variable Scope	eight
+	Variable Scope	nine
+	Log Many	@{TOOLS}
+
+Parameter And Returning Variables
+	${sum}	Evaluate	1 + 2
+	${greeting}	Get Greeting	Tianjin
+
+More Logs
+	Log Many	${True}	${INVALID USERNAME}
+	...	${INVALID PASSWORD}	${-1.2e3}
+
+For Loop With List	[Document]	This is a foreach loop
+	Log	Begin to Loop
+	:FOR	${var}	IN	1	2	foo
+	...	bar
+	\	Log	var=${var}
+		Log	loop once
+	Log	finish loop
+
+For Loop With Range
+	:FOR	${var}	IN RANGE	0	5
+	\	Log	"Hello, world!"
+
+For Loop With Multi List
+	:FOR	${a}	${b}	IN	@{LOOP_LIST_MULTI}
+	\	Log Many	a=${a}	b=${b}
+
+Just Repeat
+	Repeat Keyword 	${TIMES}	Log 	times!
+
+Append List
+	@{ls}	Create List	a	b	c
+	@{ls}	Create List	@{ls}	d	e
+	${len}	Evaluate	len(${ls})
+	Log Many	${len}	@{ls}
+	@{compose list}	Create List	@{ls}	@{TOOLS}
+
+Difference between Lists
+	@{robot list}	Create List	1	2	3
+	${python list}	Evaluate	range(3)
+	Log Many	@{robot list}
+	Log Many	${python list}
+	Log	${python list[0]}
+	Log	@{robot list}[0]
+
+Be Careful To If Else
+	Run Keyword If	'${SWITCH}' == 'ON'	Log 	Power is On!
+
+Escape Special Char
+	Log Many	\55	\\	\${not_a_variable}
+
+*** Keywords ***
+
+Login With Parameters	[Arguments]	${NAME}	${PASSWORD}
+	Log Many	${NAME}	${PASSWORD}
+
+Get Greeting	[Arguments]	${city}
+	[Document]	A despcripton of Get Greeting from a city
+	Log	Got argument '${city}'
+	[Return]	"Hello, ${city}"
+
+Variable Scope	[Arguments]	${x}
+	[Document]	"demostrate scope of a variable: in keyword, test, or suite"
+	@{TOOLS}	Set Variable	@{TOOLS}
+	@{TOOLS}	Create List	@{TOOLS}	${x}
+	Set Test Variable	@{TOOLS}
