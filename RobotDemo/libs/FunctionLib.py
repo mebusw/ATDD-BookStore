@@ -2,7 +2,7 @@ def kw1(arg):
 	print 'kw1', arg
 
 def kw2(arg):
-	print 'returning an object'
+	print '*INFO* returning an object'
 	return MyObj('China')
 
 

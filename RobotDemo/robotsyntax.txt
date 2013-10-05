@@ -7,10 +7,12 @@ Library	DynamicLib
 Library	DynamicLib.Lib2
 Library	HybridLib
 
+Variables	simple_varfile.py
+Variables	dynamic_varfile.py	${ENV}
 #Suite Setup
 #Suite Teardown
-#Test Setup	Open Browser
-#Test Teardown	Close Browser
+Test Setup	Log	BeforeEach
+Test Teardown	Log	AfterEach
 
 
 *** Variables ***
@@ -21,9 +23,10 @@ ${INVALID PASSWORD}	12345678
 @{LOOP_LIST_MULTI}	a1	b1	a2	b2	a3	b3
 ${SWITCH}	Off
 ${TIMES}	5
+${ENV}	MACOS
 
 *** Test Cases ***
-Test Libraries
+Test Libraries	[document]	Below are keywords imported from python libraries
 	Kw1	123
 	${kw2_obj}	Kw2	China
 	Log 	${kw2_obj.version}
@@ -37,6 +40,12 @@ Test Libraries
 	hybrid1
 	hybrid2 	xyz
 	hybrid5 	xyz
+
+Import Variables	[document]	Below variables are imported from resource file and py file
+	Log	${USERNAME}
+	Log Many	${RANDOM}	${A_LIST}
+	Log Many	${SHELL}	${VER}
+
 
 Scalar And List Variables
 	Login With Parameters	${INVALID USERNAME}	${INVALID PASSWORD}
