@@ -1,0 +1,3 @@
+*** Setting *** 
+Force Tags	sc2
+
