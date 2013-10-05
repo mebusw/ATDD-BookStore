@@ -1,12 +1,14 @@
 *** Settings ***
 Documentation  	Sample Suite
-#Resource	resources.tsv
+Resource	resources.txt
 
 Library	FunctionLib
 Library	DynamicLib
 Library	DynamicLib.Lib2
 Library	HybridLib
 
+#Suite Setup
+#Suite Teardown
 #Test Setup	Open Browser
 #Test Teardown	Close Browser
 

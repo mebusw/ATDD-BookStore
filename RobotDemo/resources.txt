@@ -1,0 +1,6 @@
+*** Variables ***
+${USERNAME}	abcdefgh
+
+*** Keywords ***
+Resource Kw1
+	Log 	Kw1
