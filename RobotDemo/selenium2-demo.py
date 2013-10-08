@@ -15,6 +15,15 @@ driver = webdriver.Firefox()
 # go to the google home page
 driver.get("http://cn.bing.com/")
 
+# passing javascript in
+# lis = driver.find_elements_by_tag_name("li")
+# cell = driver.execute_script("var lis = arguments[0]; console.log(lis);" \
+#     + "var cell = document.getElementById('hp_bottomCell'); " \
+#     + "return cell;", \
+#     lis)
+
+print cell, cell.text
+
 # find the element that's name attribute is q (the google search box)
 inputElement = driver.find_element_by_name("q")
 
