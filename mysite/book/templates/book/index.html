@@ -1,33 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-{% load static %}
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends 'book/base.html' %}
 
-<link rel="stylesheet" type="text/css" href="{% static "book/css/bootstrap.min.css" %}"/>
-<link rel="stylesheet" type="text/css" href="{% static "book/css/bootstrap-responsive.min.css" %}"/>
-<link rel="stylesheet" type="text/css" href="{% static "book/css/style.css" %}"/>
-<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-<!--[if lt IE 9]>
-    <script src="{% static "book/js/html5shiv.js" %}></script>
-  <![endif]-->
-
-<!-- Fav and touch icons -->
-<link rel="apple-touch-icon-precomposed" sizes="144x144" href="{% static "book/img/apple-touch-icon-144-precomposed.png" %}">
-<link rel="apple-touch-icon-precomposed" sizes="114x114" href="{% static "book/img/apple-touch-icon-114-precomposed.png" %}">
-<link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static "book/img/apple-touch-icon-72-precomposed.png" %}">
-<link rel="apple-touch-icon-precomposed" href="{% static "book/img/apple-touch-icon-57-precomposed.png" %}">
-<link rel="shortcut icon" href="{% static "book/img/favicon.png" %}">
-
-
-<script type="text/javascript" src="{% static "book/js/jquery.min.js" %}"></script>
-<script type="text/javascript" src="{% static "book/js/bootstrap.min.js" %}"></script>
-<script type="text/javascript" src="{% static "book/js/scripts.js" %}"></script>
-</head>
-
-<body>
-
+{% load url from future %}
+{% block content %}
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span12">
@@ -144,7 +118,4 @@
         </div>
     </div>
 </div>
-
-
-</body>
-</html>
+{% endblock %}
