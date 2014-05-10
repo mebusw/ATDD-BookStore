@@ -3,7 +3,7 @@ from polls.models import Poll
 from django.utils import timezone
 
 class PollModelTest(TestCase):
-    def stest_creating_a_new_poll_and_saving_it_to_the_database(self):
+    def test_creating_a_new_poll_and_saving_it_to_the_database(self):
         # start by creating a new Poll object with its "question" set
         poll = Poll()
         poll.question = "What's up?"
