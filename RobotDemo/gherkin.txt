@@ -26,22 +26,22 @@ Addition
     # [Teardown]    Close Browser
 
 清华的书在上海内免费快递
-    Given 清华出版社名为Agile Manifesto的书价值10元
-    And 到上海的快递费2元 
+    Given 清华出版社名为Agile Manifesto的书价值60元
+    And 到上海的快递费8元
     When 用户结账到上海
-    Then 用户应当付款10元
+    Then 用户应当付款60元
 
 上海之外收费快递
-    Given 清华出版社名为Agile Manifesto的书价值10元
-    And 到杭州的快递费5元 
+    Given 清华出版社名为Agile Manifesto的书价值60元
+    And 到杭州的快递费10元
     When 用户结账到杭州
-    Then 用户应当付款15元
+    Then 用户应当付款70元
 
-邮电的书收费快递
-    Given 邮电出版社名为ATDD by example的书价值15元
-    And 到上海的快递费2元 
+其他出版社的书收费快递
+    Given 邮电出版社名为ATDD by example的书价值39元
+    And 到上海的快递费8元
     When 用户结账到上海
-    Then 用户应当付款17元
+    Then 用户应当付款47元
 
 加法模板    [Template]  Calculate
     12 + 2 + 2    16
@@ -65,9 +65,9 @@ Given ${publisher}出版社名为${bookName}的书价值${price}元
     Log Many    ${publisher}    ${bookName}    ${price}
     Add Book To Cart    ${bookName}    ${price}    ${publisher}
 
-到${city}的快递费${fee}元 
+到${city}的快递费${fee}元
     Log Many    ${city}    ${fee}
-    Configure Delivery Fee    ${city}    ${fee}   
+    Configure Delivery Fee    ${city}    ${fee}
 
 用户结账到${city}
     Log    ${city}
