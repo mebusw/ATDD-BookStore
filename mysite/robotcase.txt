@@ -1,5 +1,5 @@
 *** Settings ***
-Test Setup        Open Browser    http://127.0.0.1:8000/book/    ${browser}
+Test Setup        Common Setup
 Test Teardown     Close Browser
 Library           Selenium2Library
 
@@ -177,6 +177,10 @@ For Loop
 Concat Full Name
     [Arguments]    ${firstName}    ${lastName}
     [Return]    ${firstName}, \ ${lastName}
+
+Common Setup
+    Open Browser    http://127.0.0.1:8000/book/    ${browser}
+    Set Window Size     1000    600
 
 Login To Public
     [Arguments]    ${username}    ${password}
