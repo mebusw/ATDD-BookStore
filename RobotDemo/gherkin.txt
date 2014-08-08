@@ -65,11 +65,11 @@ Given ${publisher}出版社名为${bookName}的书价值${price}元
     Log Many    ${publisher}    ${bookName}    ${price}
     Add Book To Cart    ${bookName}    ${price}    ${publisher}
 
-Then 到${city}的快递费${fee}元
+到${city}的快递费${fee}元
     Log Many    ${city}    ${fee}
     Configure Delivery Fee    ${city}    ${fee}
 
-When 用户结账到${city}
+用户结账到${city}
     Log    ${city}
     Checkout    ${city}
 
