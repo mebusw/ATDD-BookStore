@@ -102,6 +102,13 @@ Be Careful To If Else
 Escape Special Char
 	Log Many	\55	\\	\${not_a_variable}
 
+Comparison
+	Should Be Equal As Strings	abc	abc
+	Should Contain	ab123c	123
+
+
+
+
 *** Keywords ***
 
 Login With Parameters	[Arguments]	${NAME}	${PASSWORD}
