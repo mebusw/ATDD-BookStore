@@ -1,0 +1,28 @@
+*** Settings ***
+Documentation     为了提高在线购书的积极性，作为一个购书者，我希望得到免费快递
+...
+...               This test has a workflow similar to the keyword-driven
+...               examples. The difference is that the keywords use higher
+...               abstraction level and their arguments are embedded into
+...               the keyword names.
+...
+...               This kind of _gherkin_ syntax has been made popular by
+...               [http://cukes.info|Cucumber]. It works well especially when
+...               tests act as examples that need to be easily understood also
+...               by the business people.
+Library           RequestsLibrary
+Library           Collections
+
+
+
+*** Test Cases ***
+Get Requests
+    Create Session  localhost   http://127.0.0.1:8000
+    ${resp}=    Get     localhost   /peggy/jsonp
+    Should Be Equal As Strings   ${resp.status_code}   200
+    Log Many    ${resp.json()}
+    Log Dictionary  ${resp.json()}
+    Should Be Equal     ${resp.json()['first']['name']}   jacky
+    # Dictionary Should Contain Value     ${resp.json()}  first
+    ${json}     Convert To String   ${resp.json()}
+    Should Contain   ${json}   3
