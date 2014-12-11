@@ -12,6 +12,7 @@ Documentation     为了提高在线购书的积极性，作为一个购书者�
 ...               by the business people.
 Library           RequestsLibrary
 Library           Collections
+Library           CalculatorLibrary
 
 
 
@@ -26,3 +27,23 @@ Get Requests
     # Dictionary Should Contain Value     ${resp.json()}  first
     ${json}     Convert To String   ${resp.json()}
     Should Contain   ${json}   3
+
+Zhiniao Requests Success
+    Create Session  zhiniao   https://test-mlearning.pingan.com.cn:43053
+    ${resp}=    Get     zhiniao   /learn/app/courselist.do?sid=140801701883740489877&umId=XIONGYULIN002&curPage=1&numPerPage=15
+    Should Be Equal As Strings   ${resp.status_code}   200
+    Log Many    ${resp.__dict__}
+    ${real}=    Ungzip String   ${resp._content}
+    Log     ${real}
+    ${json}=    Evaluate    json.loads('''${real}''')   json
+    Should Be Equal     ${json['code']}   0
+
+Zhiniao Requests Fail
+    Create Session  zhiniao   https://test-mlearning.pingan.com.cn:43053
+    ${resp}=    Get     zhiniao   /learn/app/courselist.do
+    Should Be Equal As Strings   ${resp.status_code}   200
+    Log Many    ${resp.__dict__}
+    ${real}=    Ungzip String   ${resp._content}
+    Log     ${real}
+    ${json}=    Evaluate    json.loads('''${real}''')   json
+    Should Be Equal     ${json['code']}   -4
