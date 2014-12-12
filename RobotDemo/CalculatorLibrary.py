@@ -79,12 +79,3 @@ class CalculatorLibrary(object):
         if self._cart.sum != int(expected):
             raise AssertionError('%s != %s' % (self._cart.sum, expected))
         print expected
-
-
-    def ungzip_string(self, compressed):
-        import gzip
-        FILE_PATH = '/tmp/~rf-request.gz'
-        with open(FILE_PATH, 'wb+') as f:
-            f.write(compressed)
-        with gzip.open(FILE_PATH, 'rb+') as zf:
-            return zf.read()

@@ -1,49 +1,55 @@
 *** Settings ***
-Documentation     为了提高在线购书的积极性，作为一个购书者，我希望得到免费快递
+Documentation     知鸟课程列表接口
 ...
-...               This test has a workflow similar to the keyword-driven
-...               examples. The difference is that the keywords use higher
-...               abstraction level and their arguments are embedded into
-...               the keyword names.
+...               Created By 申健    www.JackyShen.com
+...               2014.12.12.
 ...
-...               This kind of _gherkin_ syntax has been made popular by
-...               [http://cukes.info|Cucumber]. It works well especially when
-...               tests act as examples that need to be easily understood also
-...               by the business people.
+
 Library           RequestsLibrary
 Library           Collections
-Library           CalculatorLibrary
+Library           ZhiNiaoLibrary
 
+
+*** Variables ***
+${url_host}     https://test-mlearning.pingan.com.cn:43053
 
 
 *** Test Cases ***
-Get Requests
-    Create Session  localhost   http://127.0.0.1:8000
-    ${resp}=    Get     localhost   /peggy/jsonp
-    Should Be Equal As Strings   ${resp.status_code}   200
-    Log Many    ${resp.json()}
-    Log Dictionary  ${resp.json()}
-    Should Be Equal     ${resp.json()['first']['name']}   jacky
-    # Dictionary Should Contain Value     ${resp.json()}  first
-    ${json}     Convert To String   ${resp.json()}
-    Should Contain   ${json}   3
-
-Zhiniao Requests Success
-    Create Session  zhiniao   https://test-mlearning.pingan.com.cn:43053
-    ${resp}=    Get     zhiniao   /learn/app/courselist.do?sid=140801701883740489877&umId=XIONGYULIN002&curPage=1&numPerPage=15
-    Should Be Equal As Strings   ${resp.status_code}   200
-    Log Many    ${resp.__dict__}
-    ${real}=    Ungzip String   ${resp._content}
-    Log     ${real}
-    ${json}=    Evaluate    json.loads('''${real}''')   json
+成功返回课程列表
+    ${json}=    Send Get Request To ZhiNiao    /learn/app/courselist.do?sid=140801701883740489877&umId=XIONGYULIN002&curPage=1&numPerPage=15
     Should Be Equal     ${json['code']}   0
 
-Zhiniao Requests Fail
-    Create Session  zhiniao   https://test-mlearning.pingan.com.cn:43053
-    ${resp}=    Get     zhiniao   /learn/app/courselist.do
-    Should Be Equal As Strings   ${resp.status_code}   200
+
+Sid失效
+    [Document]  这是一个例子
+    [Tags]  courselist
+    ${json}=    Send Get Request To ZhiNiao    /learn/app/courselist.do
+    Should Be Equal     ${json['code']}   -4
+    Should Be Equal     ${json['message']}   Sid失效！
+
+几种比较的方式的例子
+    Should Contain   abcde   e
+    Should Not Contain   abcde   z
+
+    ${three}=    Set Variable   3
+    Should Be True    ${three}>2
+    Should Not Be True    ${three}>5
+
+    ${legal_codes}=  Evaluate     range(1, 8)
+    ${legal_codes}=  Evaluate     [11, 9]
+    Should Be Equal As Numbers     ${legal_codes[0]}  11
+    Should Be True  9 in ${legal_codes}
+    Should Not Be True  7 in ${legal_codes}
+
+
+*** Keywords ***
+Send Get Request To Zhiniao    [Arguments]     ${url_path}
+    Create Session  zhiniao   ${url_host}
+    ${resp}=    Get Request     zhiniao   /learn/app/courselist.do
     Log Many    ${resp.__dict__}
+    #Log    ${resp.json()}
+    Should Be Equal As Strings   ${resp.status_code}   200
     ${real}=    Ungzip String   ${resp._content}
     Log     ${real}
     ${json}=    Evaluate    json.loads('''${real}''')   json
-    Should Be Equal     ${json['code']}   -4
+    [Return]    ${json}
