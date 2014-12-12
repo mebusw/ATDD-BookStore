@@ -41,6 +41,12 @@ Sid失效
     Should Be True  9 in ${legal_codes}
     Should Not Be True  7 in ${legal_codes}
 
+数据驱动的方式     [Template]  Data Drives
+    11   11
+    22   22
+    33   33
+
+
 
 *** Keywords ***
 Send Get Request To Zhiniao    [Arguments]     ${url_path}
@@ -53,3 +59,7 @@ Send Get Request To Zhiniao    [Arguments]     ${url_path}
     Log     ${real}
     ${json}=    Evaluate    json.loads('''${real}''')   json
     [Return]    ${json}
+
+Data Drives     [Arguments]     ${input}    ${output}
+    [Document]      将下面这个步骤替换成所需的重复步骤Keyword
+    Should Be Equal     ${input}    ${output}
