@@ -1,0 +1,23 @@
+*** Settings ***
+Documentation     Selenium2Library
+...
+...               Created By 申健    www.JackyShen.com
+...               2014.12.12.
+...
+
+Library           Selenium2Library
+
+
+*** Variables ***
+${browser}      chrome
+${url}          http://www.bing.com
+
+*** Test Cases ***
+Search Something
+    [Document]  这是一个例子
+    [Tags]  baidu
+    Open browser    ${url}      ${browser}
+    Input Text          id=sb_form_q   唯品会
+    Click Button        id=sb_form_go
+    Page Should Contain    一家专门做特卖的网站
+    [Teardown]  Close Browser
