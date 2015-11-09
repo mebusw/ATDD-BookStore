@@ -7,12 +7,13 @@ Documentation     知鸟课程列表接口
 
 Library           RequestsLibrary
 Library           Collections
+Library           XML
 Library           ZhiNiaoLibrary
 
 
 *** Variables ***
 ${url_host}     https://test-mlearning.pingan.com.cn:43053
-
+${XML}      <example><first id="1">diyiming</first><second id="2">dierming<child/></second></example>
 
 *** Test Cases ***
 成功返回课程列表
@@ -34,6 +35,11 @@ Send Post Request To Taiping
     ${resp}=    Post Request    taiping     /my/checkMobile.action  ${body}     headers=${headers}
     Log Many    ${resp.__dict__}
 
+Parsing XML Content
+    ${root}=    Parse XML   ${XML}
+    ${first}=   Get Element     ${root}     first
+    ${second_id}=   Get Element     ${root}     second[@id]
+    Log Many    ${root.tag}    ${first.text}    ${second_id.text}
 
 几种比较的方式的例子
     Should Contain   abcde   e
