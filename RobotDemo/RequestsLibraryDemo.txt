@@ -27,6 +27,14 @@ Sid失效
     Should Be Equal     ${json['code']}   -4
     Should Be Equal     ${json['message']}   Sid失效！
 
+Send Post Request To Taiping
+    Create Session  taiping     http://my.cntaiping.com
+    ${body}=    Create Dictionary   userRegistVo.userTempMain.mobile=18758569855
+    ${headers}=    Create Dictionary   Content-Type=application/x-www-form-urlencoded
+    ${resp}=    Post Request    taiping     /my/checkMobile.action  ${body}     headers=${headers}
+    Log Many    ${resp.__dict__}
+
+
 几种比较的方式的例子
     Should Contain   abcde   e
     Should Not Contain   abcde   z
@@ -59,6 +67,8 @@ Send Get Request To Zhiniao    [Arguments]     ${url_path}
     Log     ${real}
     ${json}=    Evaluate    json.loads('''${real}''')   json
     [Return]    ${json}
+
+
 
 Data Drives     [Arguments]     ${input}    ${output}
     [Document]      将下面这个步骤替换成所需的重复步骤Keyword
