@@ -7,7 +7,7 @@ Library           Selenium2Library
 ${username}       uperform
 ${password}       uperform
 @{os}             windows    macos    linux
-${browser}        firefox
+${browser}        chrome    #firefox
 ${title}          Refactoring: Improving the Design of Existing Code
 ${baseUrl}        http://127.0.0.1:8000/book
 
@@ -25,7 +25,9 @@ Admin Can Add Then Delete Book
     Add A Book Thru Admin
     Page Should Contain    Star Wars: Vader's Little Princess
     Click Link    link=Star Wars: Vader's Little Princess
+    Wait Until Page Contains Element    link=Delete
     Click Link    link=Delete
+    Wait Until Page Contains Element    css=input[type='submit']
     Click Button    css=input[type='submit']
     Page Should Contain    was deleted successfully.
     Logout From Admin
@@ -180,7 +182,7 @@ Concat Full Name
 
 Common Setup
     Open Browser    http://127.0.0.1:8000/book/    ${browser}
-    Set Window Size     1000    600
+    Set Window Size    1000    600
 
 Login To Public
     [Arguments]    ${username}    ${password}
@@ -283,7 +285,9 @@ Logout From Admin
 
 Add A Book Thru Admin
     Click Link    link=Books
+    Wait Until Page Contains Element    link=Add book
     Click Link    link=Add book
+    Wait Until Page Contains Element    id=id_title
     Input Text    id=id_title    Star Wars: Vader's Little Princess
     Input Text    id=id_pub_date_0    2013-04-22
     Input Text    id=id_pub_date_1    22:06:30
