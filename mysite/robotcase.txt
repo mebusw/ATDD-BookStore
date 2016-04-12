@@ -259,9 +259,13 @@ Verify Billing Info
 
 Update Billing Info
     [Arguments]    ${billingAddr}    ${shippingAddr}    ${creditCard}
+    Wait Until Page Contains Element   id=btnProfile
     Click Element    id=btnProfile
+    Wait Until Page Contains    User Profile
     Fill Billing Info    ${billingAddr}    ${shippingAddr}    ${creditCard}
+    Wait Until Page Contains Element   id=btnUpdate
     Click Element    id=btnUpdate
+    Sleep   1
 
 History Should Include
     [Arguments]    ${billId}
