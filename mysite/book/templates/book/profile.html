@@ -1,4 +1,8 @@
+{% extends 'book/base.html' %}
+
 {% load url from future %}
+{% block content %}
+
 
 
 <h2>User Profile</h2>
@@ -6,12 +10,17 @@
 
 <form action="{% url 'book:updateProfile' %}" method="POST">
     {% csrf_token %}
-    <label for="billingAddr">Billing Addr</lable><input id="billingAddr" name="billingAddr" value="{{ userProfile.billingAddr }}" /><br/>
-    <label for="shippingAddr">Shipping Addr</lable><input id="shippingAddr" name="shippingAddr" value="{{ userProfile.shippingAddr }}" /><br/>
-    <label for="creditCard">Credit Card</lable><input id="creditCard" name="creditCard" value="{{ userProfile.creditCard }}" /><br/>
-    <input type="submit" id="btnUpdate" value="Update" />        
+    <div class="form-group">
+	    <label for="billingAddr">Billing Addr</label>
+	    <input class="form-control" id="billingAddr" name="billingAddr" value="{{ userProfile.billingAddr }}" /><br/>
+	    <label for="shippingAddr">Shipping Addr</label>
+	    <input class="form-control" id="shippingAddr" name="shippingAddr" value="{{ userProfile.shippingAddr }}" /><br/>
+	    <label for="creditCard">Credit Card</label>
+	    <input class="form-control" id="creditCard" name="creditCard" value="{{ userProfile.creditCard }}" /><br/>
+    </div>
+    <button type="submit" id="btnUpdate" class="btn btn-primary">Update</button>
 </form>
 
 <a id="btnCancel" href="{% url 'book:index' %}">cancel</a>
 
-
+{% endblock %}

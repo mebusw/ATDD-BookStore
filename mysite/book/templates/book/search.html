@@ -1,10 +1,13 @@
+{% extends 'book/base.html' %}
+
 {% load url from future %}
+{% block content %}
 
 
 <div>
     <form action="{% url 'book:search' %}" method="get">
         <input id="q" name="q" placeholder="9876 books" />
-        <input type="submit" id="search" value="Search" />
+        <button class="btn" type="submit" id="search">Search</button>
     </form>
 </div>
 {% if books %}
@@ -18,3 +21,4 @@
     <p>No book are in stock.</p>
 {% endif %}
 
+{% endblock %}

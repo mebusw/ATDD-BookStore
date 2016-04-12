@@ -13,8 +13,6 @@ Documentation     为了提高在线购书的积极性，作为一个购书者�
 Library           CalculatorLibrary
 Library           Selenium2Library
 
-
-
 *** Test Cases ***
 Addition
     Given calculator has been cleared
@@ -26,6 +24,7 @@ Addition
     # [Teardown]    Close Browser
 
 清华的书在上海内免费快递
+    [Documentation]    用户故事在这里
     Given 清华出版社名为Agile Manifesto的书价值60元
     And 到上海的快递费8元
     When 用户结账到上海
@@ -43,9 +42,10 @@ Addition
     When 用户结账到上海
     Then 用户应当付款47元
 
-加法模板    [Template]  Calculate
+加法模板
+    [Template]    Calculate
     12 + 2 + 2    16
-    2 + -3        -1
+    2 + -3    -1
 
 *** Keywords ***
 Calculator has been cleared
@@ -59,7 +59,6 @@ User pushes equals
 
 Result is "${result}"
     Result should be    ${result}
-
 
 Given ${publisher}出版社名为${bookName}的书价值${price}元
     Log Many    ${publisher}    ${bookName}    ${price}

@@ -1,4 +1,8 @@
+{% extends 'book/base.html' %}
+
 {% load url from future %}
+{% block content %}
+
 
 
 <h2>Shopping Cart</h2>
@@ -25,4 +29,6 @@
 {% else %}
     <p>No book in cart.</p>
 {% endif %}
+
+{% endblock %}
 

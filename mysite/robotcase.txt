@@ -22,14 +22,10 @@ Built-in Syntax
 
 Admin Can Add Then Delete Book
     Login To Admin    uperform    uperform
-    Add A Book Thru Admin
+    Add A Book Thru Admin    Star Wars: Vader's Little Princess
     Page Should Contain    Star Wars: Vader's Little Princess
-    Click Link    link=Star Wars: Vader's Little Princess
-    Wait Until Page Contains Element    link=Delete
-    Click Link    link=Delete
-    Wait Until Page Contains Element    css=input[type='submit']
-    Click Button    css=input[type='submit']
-    Page Should Contain    was deleted successfully.
+    Open Book By Name    Star Wars: Vader's Little Princess
+    Delete Book Thru Admin
     Logout From Admin
 
 Login With Wrong Username
@@ -284,11 +280,12 @@ Logout From Admin
     Go To    http://127.0.0.1:8000/admin/logout
 
 Add A Book Thru Admin
+    [Arguments]    ${bookName}
     Click Link    link=Books
     Wait Until Page Contains Element    link=Add book
     Click Link    link=Add book
     Wait Until Page Contains Element    id=id_title
-    Input Text    id=id_title    Star Wars: Vader's Little Princess
+    Input Text    id=id_title    ${bookName}
     Input Text    id=id_pub_date_0    2013-04-22
     Input Text    id=id_pub_date_1    22:06:30
     Input Text    id=id_quatity    20
@@ -300,3 +297,14 @@ Add A Book Thru Admin
     Input Text    id=id_price    6
     Select From List    id_authors    Bill    Jobs
     Click Button    css=input[value='Save']
+
+Delete Book Thru Admin
+    Wait Until Page Contains Element    link=Delete
+    Click Link    link=Delete
+    Wait Until Page Contains Element    css=input[type='submit']
+    Click Button    css=input[type='submit']
+    Page Should Contain    was deleted successfully.
+
+Open Book By Name
+    [Arguments]    ${bookName}
+    Click Link    ${bookName}
