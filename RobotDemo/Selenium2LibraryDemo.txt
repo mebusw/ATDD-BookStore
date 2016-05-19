@@ -19,5 +19,6 @@ Search Something
     Open browser    ${url}      ${browser}
     Input Text          id=sb_form_q   唯品会
     Click Button        id=sb_form_go
+    Wait Until Page Contains    一家专门做特卖的网站
     Page Should Contain    一家专门做特卖的网站
     [Teardown]  Close Browser

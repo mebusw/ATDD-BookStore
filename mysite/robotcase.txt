@@ -31,18 +31,21 @@ Admin Can Add Then Delete Book
 Login With Wrong Username
     Page Should Contain    Book Store
     Login To Public    abcdefg    uperform
+    Wait Until Page Contains    Wrong username or password!
     Page Should Contain    Wrong username or password!
     Page Should Contain Element    id=btnLogin
 
 Login With Wrong Password
     Page Should Contain    Book Store
     Login To Public    uperform    1234
+    Wait Until Page Contains    Wrong username or password!
     Page Should Contain    Wrong username or password!
     Page Should Contain Element    id=btnLogin
 
 Login With Correct Username And Password
     Page Should Contain    Book Store
     Login To Public    uperform    uperform
+    Wait Until Page Contains    uperform, Thanks for logging in
     Page Should Contain    uperform, Thanks for logging in
     Page Should Contain Element    id=btnLogout
     Logout From Public
@@ -74,6 +77,7 @@ Pick An Out-of-stock Book Into The Cart
     ${link}    Search Results Should Include    Inferno: A Novel (Robert Langdon)    9780385537858
     Verify Book Detail    Inferno: A Novel (Robert Langdon)    9780385537858    Out-of-Stock
     Add Book to Cart    ${link}
+    Wait Until Page Contains    The book will be shipped when it becomes available.
     Page Should Contain    The book will be shipped when it becomes available.
 
 Pick An In-stock Book Into The Cart
@@ -124,12 +128,14 @@ Not Logged-in User Can Not Checkout Cart
 Logged-in User Can Checkout Cart
     [Documentation]    Precondition: refered test data are already in database.
     Login To Public    uperform    uperform
+    Wait Until Page Contains    uperform, Thanks for logging in
     Search With Word    9780201485677
     ${link}    Search Results Should Include    Refactoring: Improving the Design of Existing Code    9780201485677
     Add Book to Cart    ${link}
     Verify Quantity In Cart    Refactoring: Improving the Design of Existing Code    1
     Checkout Cart
     Confirm Billing
+    Wait Until Page Contains    Success.
     Page Should Contain    Success.
     Logout From Public
 
@@ -155,12 +161,14 @@ User Can Update Billing Info In Profile
 User Can View Own Bill History
     [Documentation]    Precondition: refered test data are already in database.
     Login To Public    uperform    uperform
+    Wait Until Page Contains    uperform, Thanks for logging in
     Search With Word    9780201485677
     ${link}    Search Results Should Include    Refactoring: Improving the Design of Existing Code    9780201485677
     Add Book to Cart    ${link}
     Verify Quantity In Cart    Refactoring: Improving the Design of Existing Code    1
     Checkout Cart
     Confirm Billing
+    Wait Until Page Contains    Success.
     Page Should Contain    Success.
     ${billId}    Get Text    id=billId
     History Should Include    ${billId}
@@ -215,10 +223,12 @@ Add Book to Cart
     Go To    ${link}
     Wait Until Page Contains Element    id=btnAddToCart
     Click Element    id=btnAddToCart
+    Sleep    1s
 
 Verify Quantity In Cart
     [Arguments]    ${title}    ${qty}
     Go To    ${baseUrl}/cart/
+    Wait Until Page Contains    ${title}
     Page Should Contain    ${title}
     ${fetched_qty}    Get Value    id=qty
     Should Be Equal    ${fetched_qty}    ${qty}
@@ -228,6 +238,7 @@ Adjust Quantity
     Go To    ${baseUrl}/cart/
     Input Text    id=qty    ${qty}
     Click Element    id=adjust
+    Sleep    1s
 
 Cart Should Not Contain Book
     [Arguments]    ${title}
@@ -238,7 +249,9 @@ Checkout Cart
     Click Element    id=checkout
 
 Confirm Billing
+    Wait Until Page Contains Element    id=btnConfirm
     Click Element    id=btnConfirm
+    Sleep    1s
 
 Fill Billing Info
     [Arguments]    ${billingAddr}    ${shippingAddr}    ${creditCard}
@@ -259,13 +272,13 @@ Verify Billing Info
 
 Update Billing Info
     [Arguments]    ${billingAddr}    ${shippingAddr}    ${creditCard}
-    Wait Until Page Contains Element   id=btnProfile
+    Wait Until Page Contains Element    id=btnProfile
     Click Element    id=btnProfile
     Wait Until Page Contains    User Profile
     Fill Billing Info    ${billingAddr}    ${shippingAddr}    ${creditCard}
-    Wait Until Page Contains Element   id=btnUpdate
+    Wait Until Page Contains Element    id=btnUpdate
     Click Element    id=btnUpdate
-    Sleep   1
+    Sleep    1
 
 History Should Include
     [Arguments]    ${billId}
