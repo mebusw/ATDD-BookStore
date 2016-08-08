@@ -6,8 +6,16 @@ A BookStore app for ATDD workshop
 # Installation
 
 * Python 2.7.x
-* RobotFramework 2.8+
-* Django 1.9+
+* Pip
+
+```
+pip install django>=1.9
+pip install robotframework
+pip install ride
+pip install robotframework-selenium2library 
+
+brew install chromedriver
+```
 
 # Usage
 
