@@ -299,8 +299,8 @@ Logout From Admin
 Add A Book Thru Admin
     [Arguments]    ${bookName}
     Click Link    link=Books
-    Wait Until Page Contains Element    link=Add book
-    Click Link    link=Add book
+    Wait Until Page Contains Element    css=a.addlink
+    Click Element    css=a.addlink
     Wait Until Page Contains Element    id=id_title
     Input Text    id=id_title    ${bookName}
     Input Text    id=id_pub_date_0    2013-04-22
