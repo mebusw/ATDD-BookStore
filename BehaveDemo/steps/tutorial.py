@@ -2,6 +2,7 @@
 from behave import *
 import sure
 from hamcrest import *
+from _common import *
 
 con = []
 
