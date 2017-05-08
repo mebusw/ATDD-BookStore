@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation     为了提高在线购书的积极性，作为一个购书者，我希望得到免费快递
+Documentation     作为购书者，我希望得到免费快递，为了提高在线购书的积极性
 ...
 ...               This test has a workflow similar to the keyword-driven
 ...               examples. The difference is that the keywords use higher
@@ -11,17 +11,9 @@ Documentation     为了提高在线购书的积极性，作为一个购书者�
 ...               tests act as examples that need to be easily understood also
 ...               by the business people.
 Library           CalculatorLibrary.py
-Library           Selenium2Library.py
+Library           Selenium2Library
 
 *** Test Cases ***
-Addition
-    Given calculator has been cleared
-    When user types "1 + 1"
-    And user pushes equals
-    Then result is "2"
-    # Open Browser    http://html5demos.com/drag    ff
-    # Selenium2Library.Drag And Drop    two    bin
-    # [Teardown]    Close Browser
 
 清华的书在上海内免费快递
     [Documentation]    用户故事在这里
@@ -41,6 +33,17 @@ Addition
     And 到上海的快递费8元
     When 用户结账到上海
     Then 用户应当付款47元
+
+
+
+Addition
+    Given calculator has been cleared
+    When user types "1 + 1"
+    And user pushes equals
+    Then result is "2"
+    # Open Browser    http://html5demos.com/drag    ff
+    # Selenium2Library.Drag And Drop    two    bin
+    # [Teardown]    Close Browser
 
 加法模板
     [Template]    Calculate
