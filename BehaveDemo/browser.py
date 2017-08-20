@@ -1,5 +1,6 @@
 from selenium import webdriver
-
+from hamcrest import *
+from selenium.webdriver.common.keys import Keys
 
 class Browser(object):
 
@@ -11,6 +12,7 @@ class Browser(object):
         """
         close the webdriver instance
         """
+        self.driver.close()
         self.driver.quit()
 
     def visit(self, location=''):
@@ -42,4 +44,12 @@ class Browser(object):
         """
         
         """
-        return True
+        assert_that(self.driver.page_source, contains_string(text))
+
+    def input_text(self, elem, text):
+        """
+        
+        """
+        elem.clear()
+        elem.send_keys(text)
+        elem.send_keys(Keys.RETURN)

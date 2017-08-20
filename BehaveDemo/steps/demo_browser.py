@@ -31,8 +31,6 @@ def step_impl(context, username, password):
     btn.click()
     
     
-    
-
 @then(u"网站跳转到首页")
 def step_impl(context):
     context.browser.page_should_contain(u'uperform')
