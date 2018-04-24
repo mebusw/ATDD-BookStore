@@ -8,7 +8,7 @@ Documentation     Example test cases using the keyword-driven testing approach.
 ...               This kind of style works well for normal test automation.
 ...               If also business people need to understand tests, using
 ...               _gherkin_ style may work better.
-Library           CalculatorLibrary
+Library           CalculatorLibrary.py
 
 *** Test Cases ***
 Push button
