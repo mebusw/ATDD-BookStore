@@ -10,15 +10,15 @@ Library           Selenium2Library
 
 *** Variables ***
 ${browser}      chrome
-${url}          http://www.bing.com
+${url}          http://www.baidu.com
 
 *** Test Cases ***
 Search Something
     [Document]  这是一个例子
-    [Tags]  baidu
+    [Tags]  SEO
     Open browser    ${url}      ${browser}
-    Input Text          id=sb_form_q   唯品会
-    Click Button        id=sb_form_go
-    Wait Until Page Contains    一家专门做特卖的网站
-    Page Should Contain    一家专门做特卖的网站
+    Input Text          id=kw   优普丰
+    Click Button        id=su
+    Wait Until Page Contains    Scrum培训
+    Page Should Contain    Scrum培训
     [Teardown]  Close Browser
