@@ -1,3 +1,4 @@
+# encoding=utf8
 from calculator import Calculator, CalculationError, Cart
 
 
@@ -79,3 +80,9 @@ class CalculatorLibrary(object):
         if self._cart.sum != int(expected):
             raise AssertionError('%s != %s' % (self._cart.sum, expected))
         print expected
+
+    def next_state_of_exam_process(self, currentState, nextState):
+        states = {u'报名': u'审批', u'审批': u'开考', u'开考': u'交卷'}
+        if states[currentState] == nextState:
+            return
+        raise AssertionError('%s is not next state of %s' % (currentState, nextState))

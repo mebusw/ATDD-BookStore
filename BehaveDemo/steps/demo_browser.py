@@ -23,15 +23,15 @@ def step_impl(context):
     context.browser.base_url = 'https://www.bing.com'
     context.browser.visit('/')
 
-@when(u"我使用用户名(?P<username>.+)和密码(?P<password>.+)登录网站")
-def step_impl(context, username, password):
+@when(u"我搜索(?P<keyword>.+)关键字")
+def step_impl(context, keyword):
     q = context.browser.find_by_id('sb_form_q')
-    q.send_keys(u'优普丰')
+    q.send_keys(keyword)
     btn = context.browser.find_by_id('sb_form_go')
     btn.click()
     
     
-@then(u"网站跳转到首页")
-def step_impl(context):
-    context.browser.page_should_contain(u'uperform')
+@then(u"网站显示包括(?P<keyword>.+)")
+def step_impl(context, keyword):
+    context.browser.page_should_contain(keyword)
     context.browser.close()
