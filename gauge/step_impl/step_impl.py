@@ -1,3 +1,4 @@
+#encoding=utf8
 from getgauge.python import step, before_scenario, Messages
 
 vowels = ["a", "e", "i", "o", "u"]
@@ -27,6 +28,13 @@ def assert_words_vowel_count(table):
     actual = [str(number_of_vowels(word)) for word in table.get_column_values_with_name("Word")]
     expected = [str(count) for count in table.get_column_values_with_name("Vowel Count")]
     assert expected == actual
+
+@step("fc <table>")
+def assert_flight_combination(table):
+    for case in table.get_column_values_with_name("case"):
+        Messages.write_message(u"case={0}".format(case))
+    assert 1 == 1
+    
 
 
 # ---------------
