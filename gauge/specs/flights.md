@@ -1,5 +1,10 @@
 # 航班预定
 
+To run this spec
+
+     gauge run specs/
+
+
 ![](las-vegas-flight.jpg)
 ![](../../../specs/las-vegas-flight.jpg)
 
@@ -17,18 +22,10 @@
 - 除布局图上的X锁外，其他座位都可用
 - 机型文件：海航机型.txt
 
-
-## 相同价值，相同位置保护
-（固定是向前保护的，如果后面有合适的座位不保护，但安全出口例外）
-
-tags: flight
-
-
-* fc
-     |case      |航班组合    |订座|NREA|额外锁定座位 |
-     |----------|-----------|---|----|-----------|
-     |31到31靠窗 |*          |31A|31K |           |
-     |过道       |*          |31C|31D |           |
+     |Case      |Combination|Booked Seat|NREA|Extra Locked Seat|
+     |----------|-----------|-----------|----|-----------------|
+     |31到31靠窗 |*          |31A        |31K |                 |
+     |过道       |*          |31C        |31D |                |
      |中间       |767/300N-767/300N||||
      |1变2 中间  |767/300N-300/200||||
      |2-6排中间向前|||||
@@ -39,7 +36,14 @@ tags: flight
      |安全出口同排|||||
      |安全出口前移|||||
      |其他|||||
-     
+
+## 相同价值，相同位置保护
+（固定是向前保护的，如果后面有合适的座位不保护，但安全出口例外）
+
+tags: flight
+
+* <Case> for <Combination>  with <Booked Seat> results in <NREA> and <Extra Locked Seat> which is "OK"
+
 
 ## Vowel counts in single word
 

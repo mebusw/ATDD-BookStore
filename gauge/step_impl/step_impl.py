@@ -34,6 +34,12 @@ def assert_flight_combination(table):
     for case in table.get_column_values_with_name("case"):
         Messages.write_message(u"case={0}".format(case))
     assert 1 == 1
+
+
+@step("<Case> for <Combination>  with <Booked Seat> results in <NREA> and <Extra Locked Seat> which is <status>")
+def assert_flight_combination(case, combination, booked_seat, NREA, extra, status):
+    Messages.write_message(u"case={0},{1},{2},{3},{4}".format(case, combination, booked_seat, NREA, extra))
+    assert status == "OK"
     
 
 
