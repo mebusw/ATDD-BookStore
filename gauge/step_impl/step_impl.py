@@ -1,5 +1,6 @@
 #encoding=utf8
 from getgauge.python import step, before_scenario, Messages
+from src import *
 
 vowels = ["a", "e", "i", "o", "u"]
 
@@ -40,6 +41,7 @@ def assert_flight_combination(table):
 def assert_flight_combination(case, combination, booked_seat, NREA, extra, status):
     Messages.write_message(u"case={0},{1},{2},{3},{4}".format(case, combination, booked_seat, NREA, extra))
     assert status == "OK"
+    assert NREA == FlightScheduler(case, combination, booked_seat, extra).process()
     
 
 
