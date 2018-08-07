@@ -7,6 +7,6 @@ class FlightScheduler(object):
         self.extra = extra
 
     def process(self):
-        if self.booked_seat == "31A":
-            result_NREA = "31K"
+        #if self.booked_seat == "31A":
+        #    result_NREA = "31K"
         return result_NREA
