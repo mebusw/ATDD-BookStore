@@ -36,19 +36,27 @@ Library           Selenium2Library
 
 
 
-Addition
+Addition Of Positives
     Given calculator has been cleared
     When user types "1 + 1"
     And user pushes equals
     Then result is "2"
+
+Addition Of Negtives
+    Given calculator has been cleared
+    When user types "-6 + -2"
+    And user pushes equals
+    Then result is "-8"
+
+
+加法模板Adding
+    [Template]    Calculate
+    12 + 2 + 2    16
+    2 + -3    -1
     # Open Browser    http://html5demos.com/drag    ff
     # Selenium2Library.Drag And Drop    two    bin
     # [Teardown]    Close Browser
 
-加法模板
-    [Template]    Calculate
-    12 + 2 + 2    16
-    2 + -3    -1
 
 *** Keywords ***
 Calculator has been cleared
