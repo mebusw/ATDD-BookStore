@@ -1,6 +1,9 @@
 *** Settings ***
 Documentation     作为购书者，我希望得到免费快递，为了提高在线购书的积极性
 ...
+...               As a book buyer, I want free delivery, so that I'll be more willing to buy
+...
+...
 ...               This test has a workflow similar to the keyword-driven
 ...               examples. The difference is that the keywords use higher
 ...               abstraction level and their arguments are embedded into
@@ -34,7 +37,17 @@ Library           Selenium2Library
     When 用户结账到上海
     Then 用户应当付款47元
 
+Qinghua book is free delivered in Shanghai
+    Given price of Agile Manifesto from Qianghua Publisher is 60 Yuan
+    And Delivery fee to Shanghai City is 8 Yuan
+    When buyer check out to Shanghai City
+    Then Buyer need to pay 60 Yuan
 
+Qinghua book is free delivered in Hangzhou
+    Given price of Agile Manifesto from Qianghua Publisher is 60 Yuan
+    And Delivery fee to Hangzhou City is 10 Yuan
+    When buyer check out to Hangzhou City
+    Then Buyer need to pay 70 Yuan
 
 Addition Of Positives
     Given calculator has been cleared
@@ -74,8 +87,16 @@ Result is "${result}"
 Given ${publisher}出版社名为${bookName}的书价值${price}元
     Log Many    ${publisher}    ${bookName}    ${price}
     Add Book To Cart    ${bookName}    ${price}    ${publisher}
+ 
+Price of ${bookName} from ${publisher} Publisher is ${price} Yuan
+    Log Many    ${publisher}    ${bookName}    ${price}
+    Add Book To Cart    ${bookName}    ${price}    ${publisher}
 
 到${city}的快递费${fee}元
+    Log Many    ${city}    ${fee}
+    Configure Delivery Fee    ${city}    ${fee}
+
+Delivery fee to ${city} City is ${fee} Yuan
     Log Many    ${city}    ${fee}
     Configure Delivery Fee    ${city}    ${fee}
 
@@ -83,7 +104,15 @@ Given ${publisher}出版社名为${bookName}的书价值${price}元
     Log    ${city}
     Checkout    ${city}
 
+buyer check out to ${city} City
+    Log    ${city}
+    Checkout    ${city}
+
 用户应当付款${charge}元
+    Log Many    ${charge}
+    Charge Should be    ${charge}
+
+Buyer need to pay ${charge} Yuan
     Log Many    ${charge}
     Charge Should be    ${charge}
 
