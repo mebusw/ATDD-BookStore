@@ -38,19 +38,19 @@ class Cart(object):
         self._books = []
 
     def addBook(self, bookname, price, publisher):
-        #self._books.append({'name': bookname, 'price': price, 'publisher': publisher})
+        self._books.append({'name': bookname, 'price': price, 'publisher': publisher})
 	print
 
     def setFeeOfCity(self, city, fee):
-        self._fees[city] = int(fee)
+        #self._fees[city] = int(fee)
         print
 
     def caculate(self, city):
-        self.sum = sum(map(lambda book: int(book['price']), self._books))
-        #self.sum = reduce(lambda x, book: int(book['price']) + x, self._books, 0)
+        #self.sum = sum(map(lambda book: int(book['price']), self._books))
+        self.sum = reduce(lambda x, book: int(book['price']) + x, self._books, 0)
 	print self._books, city
-        #if not ((city == u'上海' or city == 'Shanghai') and len([x for x in self._books if (x['publisher'] == u'清华' or x['publisher'] == 'Qinghua') ]) > 0):
-        if not (len([x for x in self._books if (x['publisher'] == u'清华' or x['publisher'] == 'Qinghua') ]) > 0):
+        #if not ((city == u'上海' or city == 'Shanghai') and len([x for x in self._books if (x['publisher'] == u'清华' or x['publisher'] == 'O\'Reilly') ]) > 0):
+        if not (len([x for x in self._books if (x['publisher'] == u'清华' or x['publisher'] == 'O\'Reilly') ]) > 0):
             self.sum += self._fees[city]
 
         

@@ -37,17 +37,17 @@ Library           Selenium2Library
     When 用户结账到上海
     Then 用户应当付款47元
 
-Qinghua book is free delivered in Shanghai
-    Given price of Agile Manifesto from Qianghua Publisher is 60 Yuan
-    And Delivery fee to Shanghai City is 8 Yuan
+O'Reilly book is free delivered in Shanghai
+    Given price of Agile Manifesto from O'Reilly Publisher is 60 RMB
+    And Delivery fee to Shanghai City is 8 RMB
     When buyer check out to Shanghai City
-    Then Buyer need to pay 60 Yuan
+    Then Buyer need to pay 60 RMB
 
-Qinghua book is free delivered in Hangzhou
-    Given price of Agile Manifesto from Qianghua Publisher is 60 Yuan
-    And Delivery fee to Hangzhou City is 10 Yuan
-    When buyer check out to Hangzhou City
-    Then Buyer need to pay 70 Yuan
+O'Reilly book is free delivered in Beijing
+    Given price of Agile Manifesto from O'Reilly Publisher is 60 RMB
+    And Delivery fee to Beijing City is 10 RMB
+    When buyer check out to Beijing City
+    Then Buyer need to pay 70 RMB
 
 Addition Of Positives
     Given calculator has been cleared
@@ -88,7 +88,7 @@ Given ${publisher}出版社名为${bookName}的书价值${price}元
     Log Many    ${publisher}    ${bookName}    ${price}
     Add Book To Cart    ${bookName}    ${price}    ${publisher}
  
-Price of ${bookName} from ${publisher} Publisher is ${price} Yuan
+Price of ${bookName} from ${publisher} Publisher is ${price} RMB
     Log Many    ${publisher}    ${bookName}    ${price}
     Add Book To Cart    ${bookName}    ${price}    ${publisher}
 
@@ -96,7 +96,7 @@ Price of ${bookName} from ${publisher} Publisher is ${price} Yuan
     Log Many    ${city}    ${fee}
     Configure Delivery Fee    ${city}    ${fee}
 
-Delivery fee to ${city} City is ${fee} Yuan
+Delivery fee to ${city} City is ${fee} RMB
     Log Many    ${city}    ${fee}
     Configure Delivery Fee    ${city}    ${fee}
 
@@ -112,7 +112,7 @@ buyer check out to ${city} City
     Log Many    ${charge}
     Charge Should be    ${charge}
 
-Buyer need to pay ${charge} Yuan
+Buyer need to pay ${charge} RMB
     Log Many    ${charge}
     Charge Should be    ${charge}
 
