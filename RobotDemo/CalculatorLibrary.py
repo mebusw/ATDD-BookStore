@@ -62,7 +62,7 @@ class CalculatorLibrary(object):
         """
         try:
             self.push_buttons(expression)
-        except CalculationError, err:
+        except CalculationError as err:
             return str(err)
         else:
             raise AssertionError("'%s' should caused an error" % expression)
@@ -79,7 +79,7 @@ class CalculatorLibrary(object):
     def charge_should_be(self, expected):
         if self._cart.sum != int(expected):
             raise AssertionError('%s != %s' % (self._cart.sum, expected))
-        print expected
+        print(expected)
 
     def next_state_of_exam_process(self, currentState, nextState):
         states = {u'报名': u'审批', u'审批': u'开考', u'开考': u'交卷'}
