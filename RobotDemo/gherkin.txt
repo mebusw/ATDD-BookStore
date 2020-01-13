@@ -43,7 +43,7 @@ O'Reilly book is free delivered in Shanghai
     When buyer check out to Shanghai City
     Then Buyer need to pay 60 RMB
 
-O'Reilly book is free delivered in Beijing
+O'Reilly book is not free delivered in Beijing
     Given price of Agile Manifesto from O'Reilly Publisher is 60 RMB
     And Delivery fee to Beijing City is 10 RMB
     When buyer check out to Beijing City
