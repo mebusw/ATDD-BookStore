@@ -38,11 +38,11 @@ class Cart(object):
         self._books = []
 
     def addBook(self, bookname, price, publisher):
-        self._books.append({'name': bookname, 'price': price, 'publisher': publisher})
+        #self._books.append({'name': bookname, 'price': price, 'publisher': publisher})
         print()
 
     def setFeeOfCity(self, city, fee):
-        self._fees[city] = int(fee)
+        #self._fees[city] = int(fee)
         print()
 
     def caculate(self, city):
