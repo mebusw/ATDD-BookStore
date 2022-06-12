@@ -19,6 +19,6 @@ Search Something
     Open browser    ${url}      ${browser}
     Input Text          id=kw   优普丰
     Click Button        id=su
-    Wait Until Page Contains    Scrum培训
-    Page Should Contain    Scrum培训
+    Wait Until Page Contains    Scrum认证
+    Page Should Contain    Scrum认证
     [Teardown]  Close Browser
