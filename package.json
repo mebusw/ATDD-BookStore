@@ -1,0 +1,31 @@
+{
+  "name": "ATDD-BookStore",
+  "version": "1.0.0",
+  "description": "ATDD-BookStore ==============",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mebusw/ATDD-BookStore.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mebusw/ATDD-BookStore/issues"
+  },
+  "homepage": "https://github.com/mebusw/ATDD-BookStore#readme",
+  "devDependencies": {
+    "@fieldtech/simple-conventional-changelog": "^1.1.4"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/@fieldtech/simple-conventional-changelog"
+    }
+  }
+}

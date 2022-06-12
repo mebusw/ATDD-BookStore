@@ -4,6 +4,7 @@ output.xml
 report.html
 selenium-screenshot-*.png
 .DS_Store
+package-lock.json
 
 *.py[cod]
 
@@ -24,6 +25,7 @@ develop-eggs
 .installed.cfg
 lib
 lib64
+node_modules/
 
 # Installer logs
 pip-log.txt
@@ -32,6 +34,7 @@ pip-log.txt
 .coverage
 .tox
 nosetests.xml
+junit.xml
 
 # Translations
 *.mo
@@ -40,3 +43,4 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+.idea/
