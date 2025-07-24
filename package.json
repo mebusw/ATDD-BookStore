@@ -27,5 +27,8 @@
     "commitizen": {
       "path": "./node_modules/@fieldtech/simple-conventional-changelog"
     }
+  },
+  "dependencies": {
+    "@cucumber/cucumber": "^12.1.0"
   }
 }
