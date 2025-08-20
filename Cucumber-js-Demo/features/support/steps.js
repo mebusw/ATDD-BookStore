@@ -31,7 +31,7 @@ Then('I should be told {string}', function (expectedAnswer) {
   assert.strictEqual(this.actualAnswer, expectedAnswer);
 });
 
-///////////////////// LoyaltyProgram ////////////////////////////////
+///////////////////// Bank Account ////////////////////////////////
 
 // '阿宝的账户里有<balance-paul>元'
 Given('阿宝的账户里有{float}元', function (balancePaul) {

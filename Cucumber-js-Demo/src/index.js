@@ -6,6 +6,9 @@ class Greeter {
 
 class Bank {
   transfer(from, to, amount) {
+    if(from.balance < amount) {
+      return "取消";
+    }
     from.balance -= amount;
     to.balance += amount;
     return "成功";
